@@ -17,7 +17,7 @@ window.onload = function() {
     
     function preload() {
         // Loads the ground - call it ground
-        game.load.image( 'ground', 'assets/ground.png' );
+        game.load.image( 'ground', 'assets/ground2.png' );
     }
     
     var grnd;
