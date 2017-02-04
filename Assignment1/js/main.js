@@ -26,9 +26,10 @@ window.onload = function() {
     
     function create() {
         // Create a sprite at the center of the screen using the 'logo' image.
+        // game.world.centerY + 150 ---> goes down!!!
         //grnd = game.add.sprite( game.world.centerX, game.world.centerY, 'ground' );
         grnd = game.add.tileSprite(game.world.centerX, game.world.centerY + 500, game.world.bounds.width, game.cache.getImage('ground').height, 'ground');
-        cwboy = game.add.sprite(150, game.world.centerY +150, 'cowboy');
+        cwboy = game.add.sprite(150, game.world.centerY + 150, 'cowboy');
         // Anchor the sprite at its center, as opposed to its top-left corner.
         // so it will be truly centered.
         grnd.anchor.setTo(0.5, 0.5);
