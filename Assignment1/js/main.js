@@ -17,21 +17,26 @@ window.onload = function() {
     
     function preload() {
         // Loads the ground - call it ground
-        this.game.load.image('ground', 'assets/ground2.png');
+        this.game.load.image('sky', 'assets/sky.png');
+        this.game.load.image('ground', 'assets/ground.png');
         this.game.load.image('cowboy', 'assets/cowboy.png');
     }
     
     var grnd;
     var cwboy;
+    var sky;
     
     function create() {
-        // Create a sprite at the center of the screen using the 'logo' image.
-        // game.world.centerY + 150 ---> goes down!!!
-        grnd = game.add.sprite( game.world.centerX, game.world.centerY, 'ground' );
-        //grnd = game.add.tileSprite(0, game.world.centerY, game.world.bounds.width, game.world.bounds.height, 'ground');
+      
+        //creates a tile sprite so it looks like the image is tiled side by side
+        sky = game.add.tileSprite(game.world.centerX, game.world.centerY - 100, game.world.bounds.width, game.world.bounds.height, 'sky');
+        grnd = game.add.tileSprite(game.world.centerX, game.height + 200, game.world.bounds.width, game.world.bounds.height, 'ground');
+        
+        //creates a sprite set around the lower left corner
         cwboy = game.add.sprite(150, game.world.centerY + 150, 'cowboy');
-        // Anchor the sprite at its center, as opposed to its top-left corner.
-        // so it will be truly centered.
+
+        //sprite anchor set to middle of the image - centered
+        sky.anchor.setTo(0.5, 0.5);
         grnd.anchor.setTo(0.5, 0.5);
         cwboy.anchor.setTo(0.5, 0.5);
         
@@ -53,7 +58,10 @@ window.onload = function() {
         // in X or Y.
         // This function returns the rotation angle that makes it visually match its
         // new trajectory.
-        //bouncy.rotation = game.physics.arcade.accelerateToPointer( bouncy, this.game.input.activePointer, 500, 500, 500 );
-        grnd.tilePosition.x -= 0.5;
+
+        //moves the tileSprites position to the left constantly
+        //because it is tiled however, it looks as if it is infinitely scrolling
+        grnd.tilePosition.x -= 3;
+        sky.tilePosition.x -= .75;
     }
 };
