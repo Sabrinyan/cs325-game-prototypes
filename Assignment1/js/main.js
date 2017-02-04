@@ -27,11 +27,11 @@ window.onload = function() {
     function create() {
         // Create a sprite at the center of the screen using the 'logo' image.
         //grnd = game.add.sprite( game.world.centerX, game.world.centerY, 'ground' );
-        grnd = game.add.tileSprite(game.world.centerX, game.world.centerY, game.world.bounds.width, game.cache.getImage('ground').height, 'ground');
-        cwboy = game.add.sprite(game.world.centerX, game.world.centerY + 50, 'cowboy');
+        grnd = game.add.tileSprite(game.world.centerX, 15, game.world.bounds.width, game.cache.getImage('ground').height, 'ground');
+        cwboy = game.add.sprite(0, game.world.centerY + 25, 'cowboy');
         // Anchor the sprite at its center, as opposed to its top-left corner.
         // so it will be truly centered.
-        grnd.anchor.setTo(0.5, 0.5);
+        grnd.anchor.setTo(0.5, 0);
         cwboy.anchor.setTo(0.5, 0.5);
         
         // Turn on the arcade physics engine for this sprite.
@@ -53,10 +53,6 @@ window.onload = function() {
         // This function returns the rotation angle that makes it visually match its
         // new trajectory.
         //bouncy.rotation = game.physics.arcade.accelerateToPointer( bouncy, this.game.input.activePointer, 500, 500, 500 );
-        //grnd.tilePosition.x += 0.5;
-        cwboy.x += 2;
-        if (cwboy.x > cwboy.width) {
-            cwboy.x = -game.world.width;
-        }
+        grnd.tilePosition.x -= 0.5;
     }
 };
