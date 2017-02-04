@@ -17,14 +17,15 @@ window.onload = function() {
     
     function preload() {
         // Loads the ground - call it ground
-        game.load.image( 'ground', 'assets/ground2.png' );
+        game.load.image( 'ground', 'assets/ground.png' );
     }
     
     var grnd;
     
     function create() {
         // Create a sprite at the center of the screen using the 'logo' image.
-        grnd = game.add.sprite( game.world.centerX, game.world.centerY, 'ground' );
+        //grnd = game.add.sprite( game.world.centerX, game.world.centerY, 'ground' );
+        grnd = game.add.tileSprite(0, 0, 500, 500, 'ground');
         // Anchor the sprite at its center, as opposed to its top-left corner.
         // so it will be truly centered.
         bouncy.anchor.setTo( 0.5, 0.5 );
@@ -48,11 +49,6 @@ window.onload = function() {
         // This function returns the rotation angle that makes it visually match its
         // new trajectory.
         //bouncy.rotation = game.physics.arcade.accelerateToPointer( bouncy, this.game.input.activePointer, 500, 500, 500 );
-        grnd.x -= 2;
-
-        if (grnd.x < -grnd.width) {
-
-            grnd.x = game.world.width;
-        }
+        grnd.tilePosition.x += 0.5;
     }
 };
