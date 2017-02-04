@@ -10,6 +10,9 @@ window.onload = function() {
     // You will need to change the paths you pass to "game.load.image()" or any other
     // loading functions to reflect where you are putting the assets.
     // All loading functions will typically all be found inside "preload()".
+
+    // I learned about the tile sprite from this website since I had a hard time finding it on examples.phaser.io
+    // https://gamedevacademy.org/how-to-make-an-infinitely-scrolling-game-with-phaser/
     
     "use strict";
     
@@ -20,11 +23,13 @@ window.onload = function() {
         this.game.load.image('sky', 'assets/sky.png');
         this.game.load.image('ground', 'assets/ground.png');
         this.game.load.image('cowboy', 'assets/cowboy.png');
+        this.game.load.image('arm', 'assets/arm.png');
     }
     
     var grnd;
     var cwboy;
     var sky;
+    var arm;
     
     function create() {
       
@@ -34,11 +39,13 @@ window.onload = function() {
         
         //creates a sprite set around the lower left corner
         cwboy = game.add.sprite(150, game.world.centerY + 150, 'cowboy');
+        arm = game.add.sprite(150, game.world.centerY + 150, 'arm');
 
         //sprite anchor set to middle of the image - centered
         sky.anchor.setTo(0.5, 0.5);
         grnd.anchor.setTo(0.5, 0.5);
         cwboy.anchor.setTo(0.5, 0.5);
+        arm.anchor.setTo();
         
         // Turn on the arcade physics engine for this sprite.
         //game.physics.enable( bouncy, Phaser.Physics.ARCADE );
