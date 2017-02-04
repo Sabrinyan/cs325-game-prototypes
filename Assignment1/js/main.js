@@ -17,7 +17,7 @@ window.onload = function() {
     
     function preload() {
         // Loads the ground - call it ground
-        this.game.load.image('ground', 'assets/ground2.png');
+        this.game.load.image('ground', 'assets/ground.png');
         this.game.load.image('cowboy', 'assets/cowboy.png');
     }
     
@@ -27,7 +27,7 @@ window.onload = function() {
     function create() {
         // Create a sprite at the center of the screen using the 'logo' image.
         //grnd = game.add.sprite( game.world.centerX, game.world.centerY, 'ground' );
-        //grnd = game.add.tileSprite(0, 0, game.world.bounds.width, game.cache.getImage('ground').height, 'ground');
+        grnd = game.add.tileSprite(game.world.centerX, game.world.centerY, game.world.bounds.width, game.cache.getImage('ground').height, 'ground');
         cwboy = game.add.sprite(game.world.centerX, game.world.centerY, 'cowboy');
         // Anchor the sprite at its center, as opposed to its top-left corner.
         // so it will be truly centered.
