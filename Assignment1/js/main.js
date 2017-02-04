@@ -31,31 +31,49 @@ window.onload = function() {
         this.game.load.image('ground', 'assets/ground.png');
         this.game.load.image('arm', 'assets/arm.png');
         this.game.load.image('cowboy', 'assets/cowboy.png');
+        this.game.load.image('bullet', 'assets/bullet.png');
     }
     
+    // sprite variables
     var ground;
     var cowboy;
     var sky;
     var arm;
-    
+    var bullet;
+    var fireRate = 100;
+    var nextFire = 0;
+
     function create() {
       
+        // set game physics to arcade physics
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+
         // creates a tile sprite so it looks like the image is tiled side by side
         sky = game.add.tileSprite(game.world.centerX, game.world.centerY - 100, game.world.bounds.width, game.world.bounds.height, 'sky');
         ground = game.add.tileSprite(game.world.centerX, game.height + 200, game.world.bounds.width, game.world.bounds.height, 'ground');
         
         // creates a sprite set around the lower left corner
+        bullet = game.add.group();
         arm = game.add.sprite(139, game.world.centerY + 120, 'arm');
         cowboy = game.add.sprite(150, game.world.centerY + 150, 'cowboy');
+
+        // bullet sprite info!
+        
+        bullet.enableBody = true;
+        bullet.physicsBodyType = Phaser.Physics.ARCADE;
+        bullet.createMultiple(50, 'bullet');
+        bullet.setAll('checkWorldBounds', true); //states that the bullet object is within world bounds 
+        bullet.setAll('outOfBoundsKill', true); //kills bullet object that is outside the bounds of the world
 
         // sprite anchor set to middle of the image - centered
         sky.anchor.setTo(0.5, 0.5);
         ground.anchor.setTo(0.5, 0.5);
         arm.anchor.setTo(0.05, 0.5);
         cowboy.anchor.setTo(0.5, 0.5);
-        
-        // set game physics to arcade physics
-        game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        game.physics.enable(arm, Phaser.Physics.ARCADE);
+
+        //arm.body.allowRotation = false;
 
         // Make it bounce off of the world bounds.
         //bouncy.body.collideWorldBounds = true;
@@ -76,5 +94,22 @@ window.onload = function() {
 
         // updates the sprite rotation so it points to where the cursor is on the screen
         arm.rotation = game.physics.arcade.angleToPointer(arm);
+
+        if (game.input.activePointer.isDown) {
+
+            fire();
+        }
+    }
+
+    function fire() {
+
+        if (game.time.now > nextFire && bullet.countDead() > 0) {
+
+            nextFire = game.time.now + fireRate;
+            var bullets = bullet.getFirstDead();
+            //bullets.reset(arm.x + 30, arm.y - 23);
+            bullets.reset(arm.x + 5, arm.y - 5);
+            game.physics.arcade.moveToPointer(bullets, 300);
+        }
     }
 };
