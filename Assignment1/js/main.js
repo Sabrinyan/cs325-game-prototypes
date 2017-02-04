@@ -17,7 +17,7 @@ window.onload = function() {
     
     function preload() {
         // Loads the ground - call it ground
-        this.game.load.image('ground', 'assets/ground.png');
+        this.game.load.image('ground', 'assets/ground2.png');
         this.game.load.image('cowboy', 'assets/cowboy.png');
     }
     
