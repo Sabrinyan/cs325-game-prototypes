@@ -17,15 +17,18 @@ window.onload = function() {
     
     function preload() {
         // Loads the ground - call it ground
-        this.game.load.image( "ground", "assets/ground2.png");
+        this.game.load.image("ground", "assets/ground2.png");
+        this.game.load.image("cowboy", "assets/cowboy.png");
     }
     
     var grnd;
+    var cwboy;
     
     function create() {
         // Create a sprite at the center of the screen using the 'logo' image.
         //grnd = game.add.sprite( game.world.centerX, game.world.centerY, 'ground' );
         this.grnd = this.game.add.tileSprite(0, 0, game.stage.bounds.width, game.cache.getImage('ground').height, 'ground');
+        this.cwboy = this.game.add(game.centerX, game.centerY, 'cowboy');
         // Anchor the sprite at its center, as opposed to its top-left corner.
         // so it will be truly centered.
         //bouncy.anchor.setTo( 0.5, 0.5 );
@@ -50,5 +53,9 @@ window.onload = function() {
         // new trajectory.
         //bouncy.rotation = game.physics.arcade.accelerateToPointer( bouncy, this.game.input.activePointer, 500, 500, 500 );
         this.grnd.tilePosition.x += 0.5;
+        this.cwboy.x -= 2;
+        if (cwboy.x < -cwboy.width) {
+            cwboy.x = game.world.width;
+        }
     }
 };
