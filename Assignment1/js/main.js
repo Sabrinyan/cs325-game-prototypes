@@ -11,44 +11,52 @@ window.onload = function() {
     // loading functions to reflect where you are putting the assets.
     // All loading functions will typically all be found inside "preload()".
 
-    // I learned about the tile sprite from this website since I had a hard time finding it on examples.phaser.io
+    // --- INFORMATION FOUND ---
+    // Tile Sprite - to make an infinitely scrolling background
+    // Found from the website below (I had a hart time finding it on phaser.io/examples)
     // https://gamedevacademy.org/how-to-make-an-infinitely-scrolling-game-with-phaser/
+    // Rotating arm - make the arm point to where the mouse cursor is at
+    // Found from the website below
+    // http://phaser.io/examples/v2/arcade-physics/angle-to-pointer
     
     "use strict";
     
     var game = new Phaser.Game( 1250, 670, Phaser.AUTO, 'game', { preload: preload, create: create, update: update } );
     
     function preload() {
-        // Loads the ground - call it ground
+
+        // loads assets
+        // the images are all exatly what you think it is
         this.game.load.image('sky', 'assets/sky.png');
         this.game.load.image('ground', 'assets/ground.png');
-        this.game.load.image('cowboy', 'assets/cowboy.png');
         this.game.load.image('arm', 'assets/arm.png');
+        this.game.load.image('cowboy', 'assets/cowboy.png');
     }
     
-    var grnd;
-    var cwboy;
+    var ground;
+    var cowboy;
     var sky;
     var arm;
     
     function create() {
       
-        //creates a tile sprite so it looks like the image is tiled side by side
+        // creates a tile sprite so it looks like the image is tiled side by side
         sky = game.add.tileSprite(game.world.centerX, game.world.centerY - 100, game.world.bounds.width, game.world.bounds.height, 'sky');
-        grnd = game.add.tileSprite(game.world.centerX, game.height + 200, game.world.bounds.width, game.world.bounds.height, 'ground');
+        ground = game.add.tileSprite(game.world.centerX, game.height + 200, game.world.bounds.width, game.world.bounds.height, 'ground');
         
-        //creates a sprite set around the lower left corner
-        cwboy = game.add.sprite(150, game.world.centerY + 150, 'cowboy');
-        arm = game.add.sprite(150, game.world.centerY + 150, 'arm');
+        // creates a sprite set around the lower left corner
+        arm = game.add.sprite(139, game.world.centerY + 120, 'arm');
+        cowboy = game.add.sprite(150, game.world.centerY + 150, 'cowboy');
 
-        //sprite anchor set to middle of the image - centered
+        // sprite anchor set to middle of the image - centered
         sky.anchor.setTo(0.5, 0.5);
-        grnd.anchor.setTo(0.5, 0.5);
-        cwboy.anchor.setTo(0.5, 0.5);
-        arm.anchor.setTo();
+        ground.anchor.setTo(0.5, 0.5);
+        arm.anchor.setTo(0.05, 0.5);
+        cowboy.anchor.setTo(0.5, 0.5);
         
-        // Turn on the arcade physics engine for this sprite.
-        //game.physics.enable( bouncy, Phaser.Physics.ARCADE );
+        // set game physics to arcade physics
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+
         // Make it bounce off of the world bounds.
         //bouncy.body.collideWorldBounds = true;
         
@@ -60,15 +68,13 @@ window.onload = function() {
     }
     
     function update() {
-        // Accelerate the 'logo' sprite towards the cursor,
-        // accelerating at 500 pixels/second and moving no faster than 500 pixels/second
-        // in X or Y.
-        // This function returns the rotation angle that makes it visually match its
-        // new trajectory.
-
-        //moves the tileSprites position to the left constantly
-        //because it is tiled however, it looks as if it is infinitely scrolling
-        grnd.tilePosition.x -= 3;
+        
+        // moves the tileSprites position to the left constantly
+        // because it is tiled however, it looks as if it is infinitely scrolling
+        ground.tilePosition.x -= 3;
         sky.tilePosition.x -= .75;
+
+        // updates the sprite rotation so it points to where the cursor is on the screen
+        arm.rotation = game.physics.arcade.angleToPointer(arm);
     }
 };
