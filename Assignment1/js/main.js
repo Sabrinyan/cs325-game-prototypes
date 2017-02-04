@@ -24,7 +24,7 @@ window.onload = function() {
     
     function create() {
         // Create a sprite at the center of the screen using the 'logo' image.
-        grnd = game.add.sprite( game.world.centerX, 500, 'ground' );
+        grnd = game.add.sprite( game.world.centerX, game.world.centerY, 'ground' );
         // Anchor the sprite at its center, as opposed to its top-left corner.
         // so it will be truly centered.
         bouncy.anchor.setTo( 0.5, 0.5 );
