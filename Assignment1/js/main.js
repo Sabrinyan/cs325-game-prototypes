@@ -18,6 +18,11 @@ window.onload = function() {
     // Rotating arm - make the arm point to where the mouse cursor is at
     // Found from the website below
     // http://phaser.io/examples/v2/arcade-physics/angle-to-pointer
+    // Shooting - make the cowboy shoot
+    // Found from the website below
+    // http://phaser.io/examples/v2/arcade-physics/shoot-the-pointer
+    // USEFUL MAYBE LATER? : http://phaser.io/examples/v2/weapon/single-bullet
+    // Stuff: http://phaser.io/examples/v2/arcade-physics/on-collide-event
     
     "use strict";
     
@@ -75,14 +80,11 @@ window.onload = function() {
         arm.anchor.setTo(0.05, 0.5);
         cowboy.anchor.setTo(0.5, 0.5);
 
-        game.physics.enable(arm, Phaser.Physics.ARCADE);
+        game.physics.enable(bullet, Phaser.Physics.ARCADE);
 
         ranAst();
 
         //arm.body.allowRotation = false;
-
-        // Make it bounce off of the world bounds.
-        //bouncy.body.collideWorldBounds = true;
         
         // Add some text using a CSS style.
         // Center it in X, and position its top 15 pixels from the top of the world.
@@ -110,13 +112,24 @@ window.onload = function() {
 
             ranAst();
         }
+
+        game.physics.arcade.collide(asteroid, bullet, bulAst);
+    }
+
+    function bulAst() {
+
+        //bullet.destroy();
+        asteroid.destroy();
     }
 
     function ranAst() {
         
         asteroid = game.add.sprite(game.world.randomX, -(Math.random() * 670), 'asteroid');
         asteroid.rotation = Math.random() * (310 - 225) + 1;
+        //asteroid.enableBody = true;
+        //asteroid.physicsBodyType = Phaser.Physics.ARCADE;
 
+        game.physics.enable(asteroid, Phaser.Physics.ARCADE);
         game.add.tween(asteroid).to({ y: game.height + (1600 + asteroid.y) }, 20000, Phaser.Easing.Linear.None, true);
 
         timer = game.time.now + 10000;
