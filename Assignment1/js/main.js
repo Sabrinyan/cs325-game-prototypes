@@ -73,14 +73,13 @@ window.onload = function() {
         bullet.createMultiple(50, 'bullet');
         bullet.setAll('checkWorldBounds', true); //states that the bullet object is within world bounds 
         bullet.setAll('outOfBoundsKill', true); //kills bullet object that is outside the bounds of the world
+        game.physics.arcade.enable(bullet, Phaser.Physics.ARCADE);
 
         // sprite anchor set to middle of the image - centered
         sky.anchor.setTo(0.5, 0.5);
         ground.anchor.setTo(0.5, 0.5);
         arm.anchor.setTo(0.05, 0.5);
         cowboy.anchor.setTo(0.5, 0.5);
-
-        game.physics.enable(bullet, Phaser.Physics.ARCADE);
 
         ranAst();
 
@@ -103,17 +102,18 @@ window.onload = function() {
         // updates the sprite rotation so it points to where the cursor is on the screen
         arm.rotation = game.physics.arcade.angleToPointer(arm);
 
+        // checks if user is trying to fire a bullet
         if (game.input.activePointer.isDown) {
 
             fire();
         }
-
+        // checks if valid time has passed for another asteroid to spawn
         if (game.time.now > timer) {
 
             ranAst();
         }
 
-        game.physics.arcade.collide(asteroid, bullet, bulAst);
+        game.physics.arcade.overlap(asteroid, bullet, bulAst, null, this);
     }
 
     function bulAst() {
@@ -126,10 +126,11 @@ window.onload = function() {
         
         asteroid = game.add.sprite(game.world.randomX, -(Math.random() * 670), 'asteroid');
         asteroid.rotation = Math.random() * (310 - 225) + 1;
-        //asteroid.enableBody = true;
-        //asteroid.physicsBodyType = Phaser.Physics.ARCADE;
+        asteroid.anchor.setTo(0.5, 0.5);
+        asteroid.enableBody = true;
+        asteroid.physicsBodyType = Phaser.Physics.ARCADE;
 
-        game.physics.enable(asteroid, Phaser.Physics.ARCADE);
+        game.physics.arcade.enable(asteroid, Phaser.Physics.ARCADE);
         game.add.tween(asteroid).to({ y: game.height + (1600 + asteroid.y) }, 20000, Phaser.Easing.Linear.None, true);
 
         timer = game.time.now + 10000;
