@@ -21,8 +21,15 @@ window.onload = function() {
     // Shooting - make the cowboy shoot
     // Found from the website below
     // http://phaser.io/examples/v2/arcade-physics/shoot-the-pointer
+    // Overlap - make the asteroids dissapear when it gets hit with a bullet
+    // Found from the website below
+    // http://stackoverflow.com/questions/27343431/phaser-collision-execute-function-one-time
+    // Text box - update text box for keeping track of score
+    // Found From the website below
+    // http://phaser.io/examples/v2/text/update-text
     // USEFUL MAYBE LATER? : http://phaser.io/examples/v2/weapon/single-bullet
     // Stuff: http://phaser.io/examples/v2/arcade-physics/on-collide-event
+    // ---- END INFORMATION ---
     
     "use strict";
     
@@ -38,6 +45,8 @@ window.onload = function() {
         this.game.load.image('cowboy', 'assets/cowboy.png');
         this.game.load.image('bullet', 'assets/bullet.png');
         this.game.load.image('asteroid', 'assets/bigboi.png');
+
+        this.game.load.audio('explosion', 'assets/soundeffects/exp.mp3');
     }
     
     // sprite variables
@@ -48,13 +57,23 @@ window.onload = function() {
     var bullet;
     var asteroid;
 
-    //helper variables
-    var fireRate = 100;
-    var nextFire = 0;
+    // sound variables
+    var explosion;
+
+    // helper variables
+    var fireRate;
+    var nextFire;
     var timer;
+    var text;
+    var score;
 
     function create() {
       
+        //helper variable initializing
+        fireRate = 100;
+        nextFire = 0;
+        score = 0;
+
         // set game physics to arcade physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -67,6 +86,7 @@ window.onload = function() {
         arm = game.add.sprite(139, game.world.centerY + 120, 'arm');
         cowboy = game.add.sprite(150, game.world.centerY + 150, 'cowboy');
 
+        
         // bullet sprite info!   
         bullet.enableBody = true;
         bullet.physicsBodyType = Phaser.Physics.ARCADE;
@@ -74,6 +94,13 @@ window.onload = function() {
         bullet.setAll('checkWorldBounds', true); //states that the bullet object is within world bounds 
         bullet.setAll('outOfBoundsKill', true); //kills bullet object that is outside the bounds of the world
         game.physics.arcade.enable(bullet, Phaser.Physics.ARCADE);
+
+        // score
+        text = game.add.text(15, 10, "Score: 0", { font: "25px Arial", fill: "#991414", align: "left" });
+
+        // sound
+        explosion = game.add.audio('explosion');
+        game.sound.setDecodedCallback('explosion', , this);
 
         // sprite anchor set to middle of the image - centered
         sky.anchor.setTo(0.5, 0.5);
@@ -120,6 +147,9 @@ window.onload = function() {
 
         //bullet.destroy();
         asteroid.destroy();
+        explosion.play();
+        score += 10;
+        text.setText("Score : " + score);
     }
 
     function ranAst() {
