@@ -32,6 +32,7 @@ window.onload = function() {
         this.game.load.image('arm', 'assets/arm.png');
         this.game.load.image('cowboy', 'assets/cowboy.png');
         this.game.load.image('bullet', 'assets/bullet.png');
+        this.game.load.image('asteroid', 'assets/bigboi.png');
     }
     
     // sprite variables
@@ -40,8 +41,12 @@ window.onload = function() {
     var sky;
     var arm;
     var bullet;
+    var asteroid;
+
+    //helper variables
     var fireRate = 100;
     var nextFire = 0;
+    var timer;
 
     function create() {
       
@@ -57,8 +62,7 @@ window.onload = function() {
         arm = game.add.sprite(139, game.world.centerY + 120, 'arm');
         cowboy = game.add.sprite(150, game.world.centerY + 150, 'cowboy');
 
-        // bullet sprite info!
-        
+        // bullet sprite info!   
         bullet.enableBody = true;
         bullet.physicsBodyType = Phaser.Physics.ARCADE;
         bullet.createMultiple(50, 'bullet');
@@ -72,6 +76,8 @@ window.onload = function() {
         cowboy.anchor.setTo(0.5, 0.5);
 
         game.physics.enable(arm, Phaser.Physics.ARCADE);
+
+        ranAst();
 
         //arm.body.allowRotation = false;
 
@@ -99,6 +105,21 @@ window.onload = function() {
 
             fire();
         }
+
+        if (game.time.now > timer) {
+
+            ranAst();
+        }
+    }
+
+    function ranAst() {
+        
+        asteroid = game.add.sprite(game.world.randomX, -(Math.random() * 670), 'asteroid');
+        asteroid.rotation = Math.random() * (310 - 225) + 1;
+
+        game.add.tween(asteroid).to({ y: game.height + (1600 + asteroid.y) }, 20000, Phaser.Easing.Linear.None, true);
+
+        timer = game.time.now + 10000;
     }
 
     function fire() {
@@ -109,7 +130,7 @@ window.onload = function() {
             var bullets = bullet.getFirstDead();
             //bullets.reset(arm.x + 30, arm.y - 23);
             bullets.reset(arm.x + 5, arm.y - 5);
-            game.physics.arcade.moveToPointer(bullets, 300);
+            game.physics.arcade.moveToPointer(bullets, 1000);
         }
     }
 };
