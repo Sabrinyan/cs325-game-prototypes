@@ -46,7 +46,7 @@ window.onload = function() {
         this.game.load.image('bullet', 'assets/bullet.png');
         this.game.load.image('asteroid', 'assets/bigboi.png');
 
-        this.game.load.audio('explosion', 'assets/soundeffects/exp.mp3');
+        this.game.load.audio('explosion', 'assets/soundeffects/exp.ogg');
     }
     
     // sprite variables
@@ -100,7 +100,6 @@ window.onload = function() {
 
         // sound
         explosion = game.add.audio('explosion');
-        game.sound.setDecodedCallback('explosion', , this);
 
         // sprite anchor set to middle of the image - centered
         sky.anchor.setTo(0.5, 0.5);
