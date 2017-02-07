@@ -27,6 +27,9 @@ window.onload = function() {
     // Text box - update text box for keeping track of score
     // Found From the website below
     // http://phaser.io/examples/v2/text/update-text
+    // Pause - used for game over
+    // Found from the website below
+    // http://phaser.io/examples/v2/misc/pause-menu
     // USEFUL MAYBE LATER? : http://phaser.io/examples/v2/weapon/single-bullet
     // Stuff: http://phaser.io/examples/v2/arcade-physics/on-collide-event
     // ---- END INFORMATION ---
@@ -64,8 +67,11 @@ window.onload = function() {
     var fireRate;
     var nextFire;
     var timer;
-    var text;
+    var textScore;
+    var textOver;
     var score;
+    var cntTime;
+    var cntAst;
 
     function create() {
       
@@ -73,6 +79,8 @@ window.onload = function() {
         fireRate = 100;
         nextFire = 0;
         score = 0;
+        cntTime = 5000;
+        cntAst = 0;
 
         // set game physics to arcade physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -93,10 +101,12 @@ window.onload = function() {
         bullet.createMultiple(50, 'bullet');
         bullet.setAll('checkWorldBounds', true); //states that the bullet object is within world bounds 
         bullet.setAll('outOfBoundsKill', true); //kills bullet object that is outside the bounds of the world
-        game.physics.arcade.enable(bullet, Phaser.Physics.ARCADE);
+
+        // physics
+        game.physics.arcade.enable([bullet,ground], Phaser.Physics.ARCADE);
 
         // score
-        text = game.add.text(15, 10, "Score: 0", { font: "25px Arial", fill: "#991414", align: "left" });
+        textScore = game.add.text(15, 10, "Score: 0", { font: "25px Arial", fill: "#991414", align: "left" });
 
         // sound
         explosion = game.add.audio('explosion');
@@ -110,12 +120,6 @@ window.onload = function() {
         ranAst();
 
         //arm.body.allowRotation = false;
-        
-        // Add some text using a CSS style.
-        // Center it in X, and position its top 15 pixels from the top of the world.
-        //var style = { font: "25px Verdana", fill: "#9999ff", align: "center" };
-        //var text = game.add.text( game.world.centerX, 15, "Build something amazing.", style );
-        //text.anchor.setTo( 0.5, 0.0 );
     }
     
     function update() {
@@ -139,18 +143,27 @@ window.onload = function() {
             ranAst();
         }
 
-        game.physics.arcade.overlap(asteroid, bullet, bulAst, null, this);
+        game.physics.arcade.overlap(asteroid, bullet, bulAst, null, this); // calls function bulAst if asteroid and bullet overlap
+        game.physics.arcade.overlap(asteroid, ground, over, null, this); // calls function over if asteroid and ground overlap
     }
 
+    // function that handles what happens if the bullet hits the asteroid
     function bulAst() {
 
-        //bullet.destroy();
         asteroid.destroy();
         explosion.play();
         score += 10;
-        text.setText("Score : " + score);
+        textScore.setText("Score : " + score);
     }
 
+    // function that handles what happens if the asteroid hits the earth
+    function over() {
+
+        game.paused = true;
+        textOver = game.add.text(game.world.centerX, game.world.centerY, "GAME OVER", { font: "75px Arial", fill: "#991414", align: "center" });
+    }
+
+    // function that handles random asteroid spawning from the sky
     function ranAst() {
         
         asteroid = game.add.sprite(game.world.randomX, -(Math.random() * 670), 'asteroid');
@@ -162,9 +175,18 @@ window.onload = function() {
         game.physics.arcade.enable(asteroid, Phaser.Physics.ARCADE);
         game.add.tween(asteroid).to({ y: game.height + (1600 + asteroid.y) }, 20000, Phaser.Easing.Linear.None, true);
 
-        timer = game.time.now + 10000;
+        if (cntAst < 5)
+            cntAst++;
+        if (cntAst == 5 && cntTime > 1000) {
+
+            cntAst = 0;
+            cntTime -= 500;
+        }
+
+        timer = game.time.now + cntTime;
     }
 
+    // function that handles bullets shot from the cowboy's gun
     function fire() {
 
         if (game.time.now > nextFire && bullet.countDead() > 0) {
