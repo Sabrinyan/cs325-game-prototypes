@@ -59,6 +59,7 @@ window.onload = function() {
     var arm;
     var bullet;
     var asteroid;
+    var ast;
 
     // sound variables
     var explosion;
@@ -93,14 +94,19 @@ window.onload = function() {
         bullet = game.add.group();
         arm = game.add.sprite(139, game.world.centerY + 120, 'arm');
         cowboy = game.add.sprite(150, game.world.centerY + 150, 'cowboy');
+        asteroid = game.add.group();
         
+        asteroid.createMultiple(50, 'asteroid');
+        bullet.setAll('checkWorldBounds', true);
+        bullet.setAll('outOfBoundsKill', true);
+
         // bullet sprite info!   
         bullet.createMultiple(50, 'bullet');
         bullet.setAll('checkWorldBounds', true); //states that the bullet object is within world bounds 
         bullet.setAll('outOfBoundsKill', true); //kills bullet object that is outside the bounds of the world
 
         // physics
-        game.physics.enable([bullet, ground], Phaser.Physics.ARCADE);
+        game.physics.enable([bullet, asteroid, ground], Phaser.Physics.ARCADE);
 
         // score
         textScore = game.add.text(15, 10, "Score: 0", { font: "25px Arial", fill: "#991414", align: "left" });
@@ -148,7 +154,7 @@ window.onload = function() {
     // function that handles what happens if the bullet hits the asteroid
     function bulAst() {
 
-        asteroid.kill();
+        asteroid.remove(ast);
         explosion.play();
         score += 10;
         textScore.setText("Score : " + score);
@@ -164,13 +170,24 @@ window.onload = function() {
     // function that handles random asteroid spawning from the sky
     function ranAst() {
         
-        asteroid = game.add.sprite(game.world.randomX, -(Math.random() * 700), 'asteroid');
+        //asteroid = game.add.sprite(game.world.randomX, -(Math.random() * 700), 'asteroid');
         //asteroid.rotation = Math.random() * (310 - 225) + 1;
-        game.physics.enable(asteroid, Phaser.Physics.ARCADE);
-        asteroid.anchor.setTo(0.5, 0.5);
-        game.add.tween(asteroid).to({ y: game.height + (1600 + asteroid.y) }, 20000, Phaser.Easing.Linear.None, true);
+        //game.physics.enable(asteroid, Phaser.Physics.ARCADE);
+        //asteroid.anchor.setTo(0.5, 0.5);
+        //game.add.tween(asteroid).to({ y: game.height + (1600 + asteroid.y) }, 20000, Phaser.Easing.Linear.None, true);
 
-        timer = game.time.now + 6000;
+            timer = game.time.now + cntTime;
+            ast = asteroid.getFirstDead();
+            ast.reset(game.world.randomX + 200, -150);
+            game.add.tween(ast).to({ y: game.height + (670 + asteroid.y) }, 20000, Phaser.Easing.Linear.None, true);
+
+        if (cntAst < 5 && cntTime > 500) {
+            cntAst++;
+        }
+        if (cntAst == 5 && cntTime > 500) {
+            cntAst = 0;
+            cntTime -= 500;
+        }
     }
 
     // function that handles bullets shot from the cowboy's gun
