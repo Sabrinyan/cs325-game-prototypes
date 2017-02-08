@@ -93,17 +93,14 @@ window.onload = function() {
         bullet = game.add.group();
         arm = game.add.sprite(139, game.world.centerY + 120, 'arm');
         cowboy = game.add.sprite(150, game.world.centerY + 150, 'cowboy');
-
         
         // bullet sprite info!   
-        bullet.enableBody = true;
-        bullet.physicsBodyType = Phaser.Physics.ARCADE;
         bullet.createMultiple(50, 'bullet');
         bullet.setAll('checkWorldBounds', true); //states that the bullet object is within world bounds 
         bullet.setAll('outOfBoundsKill', true); //kills bullet object that is outside the bounds of the world
 
         // physics
-        game.physics.arcade.enable([bullet,ground], Phaser.Physics.ARCADE);
+        game.physics.enable([bullet, ground], Phaser.Physics.ARCADE);
 
         // score
         textScore = game.add.text(15, 10, "Score: 0", { font: "25px Arial", fill: "#991414", align: "left" });
@@ -118,6 +115,7 @@ window.onload = function() {
         cowboy.anchor.setTo(0.5, 0.5);
 
         ranAst();
+        //game.time.events.loop(Phaser.Timer.SECOND * 5, ranAst, this);
 
         //arm.body.allowRotation = false;
     }
@@ -143,14 +141,14 @@ window.onload = function() {
             ranAst();
         }
 
-        game.physics.arcade.overlap(asteroid, bullet, bulAst, null, this); // calls function bulAst if asteroid and bullet overlap
-        game.physics.arcade.overlap(asteroid, ground, over, null, this); // calls function over if asteroid and ground overlap
+        game.physics.arcade.overlap(asteroid, bullet, bulAst); // calls function bulAst if asteroid and bullet overlap
+        game.physics.arcade.overlap(asteroid, ground, over); // calls function over if asteroid and ground overlap
     }
 
     // function that handles what happens if the bullet hits the asteroid
     function bulAst() {
 
-        asteroid.destroy();
+        asteroid.kill();
         explosion.play();
         score += 10;
         textScore.setText("Score : " + score);
@@ -166,24 +164,13 @@ window.onload = function() {
     // function that handles random asteroid spawning from the sky
     function ranAst() {
         
-        asteroid = game.add.sprite(game.world.randomX, -(Math.random() * 670), 'asteroid');
-        asteroid.rotation = Math.random() * (310 - 225) + 1;
+        asteroid = game.add.sprite(game.world.randomX, -(Math.random() * 700), 'asteroid');
+        //asteroid.rotation = Math.random() * (310 - 225) + 1;
+        game.physics.enable(asteroid, Phaser.Physics.ARCADE);
         asteroid.anchor.setTo(0.5, 0.5);
-        asteroid.enableBody = true;
-        asteroid.physicsBodyType = Phaser.Physics.ARCADE;
-
-        game.physics.arcade.enable(asteroid, Phaser.Physics.ARCADE);
         game.add.tween(asteroid).to({ y: game.height + (1600 + asteroid.y) }, 20000, Phaser.Easing.Linear.None, true);
 
-        if (cntAst < 5)
-            cntAst++;
-        if (cntAst == 5 && cntTime > 1000) {
-
-            cntAst = 0;
-            cntTime -= 500;
-        }
-
-        timer = game.time.now + cntTime;
+        timer = game.time.now + 6000;
     }
 
     // function that handles bullets shot from the cowboy's gun
@@ -193,7 +180,6 @@ window.onload = function() {
 
             nextFire = game.time.now + fireRate;
             var bullets = bullet.getFirstDead();
-            //bullets.reset(arm.x + 30, arm.y - 23);
             bullets.reset(arm.x + 5, arm.y - 5);
             game.physics.arcade.moveToPointer(bullets, 1000);
         }
