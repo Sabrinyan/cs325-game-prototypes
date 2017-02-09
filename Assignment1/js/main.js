@@ -121,9 +121,10 @@ window.onload = function() {
         // sound
         explosion = game.add.audio('explosion');
         end = game.add.audio('end');
-        music = game.add.audio('loop');
-
+        music = new Audio('loop');
         music.play();
+
+        //music.play();
         music.loop = true;
 
         // sprite anchor set to middle of the image - centered
