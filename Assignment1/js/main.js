@@ -21,6 +21,7 @@ window.onload = function() {
     // Shooting - make the cowboy shoot
     // Found from the website below
     // http://phaser.io/examples/v2/arcade-physics/shoot-the-pointer
+    // http://www.html5gamedevs.com/topic/1698-how-to-have-mouse-down-true-only-once-each-click/
     // Overlap - make the asteroids dissapear when it gets hit with a bullet
     // Found from the website below
     // http://stackoverflow.com/questions/27343431/phaser-collision-execute-function-one-time
@@ -71,8 +72,9 @@ window.onload = function() {
     var textScore;
     var textOver;
     var score;
-    var cntTime;
+    var cnt;
     var cntAst;
+    var check;
 
     function create() {
       
@@ -80,8 +82,9 @@ window.onload = function() {
         fireRate = 100;
         nextFire = 0;
         score = 0;
-        cntTime = 5000;
+        cnt = 15000;
         cntAst = 0;
+        check = 0;
 
         // set game physics to arcade physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -96,17 +99,17 @@ window.onload = function() {
         cowboy = game.add.sprite(150, game.world.centerY + 150, 'cowboy');
         asteroid = game.add.group();
         
-        asteroid.createMultiple(50, 'asteroid');
-        bullet.setAll('checkWorldBounds', true);
-        bullet.setAll('outOfBoundsKill', true);
+        //asteroid.createMultiple(50, 'asteroid');
+        //asteroid.setAll('checkWorldBounds', true);
+        //asteroid.setAll('outOfBoundsKill', true);
 
         // bullet sprite info!   
-        bullet.createMultiple(50, 'bullet');
+        bullet.createMultiple(100, 'bullet');
         bullet.setAll('checkWorldBounds', true); //states that the bullet object is within world bounds 
         bullet.setAll('outOfBoundsKill', true); //kills bullet object that is outside the bounds of the world
 
         // physics
-        game.physics.enable([bullet, asteroid, ground], Phaser.Physics.ARCADE);
+        game.physics.enable([bullet, ground], Phaser.Physics.ARCADE);
 
         // score
         textScore = game.add.text(15, 10, "Score: 0", { font: "25px Arial", fill: "#991414", align: "left" });
@@ -137,12 +140,9 @@ window.onload = function() {
         arm.rotation = game.physics.arcade.angleToPointer(arm);
 
         // checks if user is trying to fire a bullet
-        if (game.input.activePointer.isDown) {
-
-            fire();
-        }
+        game.input.onDown.add(fire, this);
         // checks if valid time has passed for another asteroid to spawn
-        if (game.time.now > timer) {
+        if (game.time.now > timer && check == 0) {
 
             ranAst();
         }
@@ -154,7 +154,9 @@ window.onload = function() {
     // function that handles what happens if the bullet hits the asteroid
     function bulAst() {
 
-        asteroid.remove(ast);
+        //asteroid.remove(ast);
+        ast.destroy();
+        check--;
         explosion.play();
         score += 10;
         textScore.setText("Score : " + score);
@@ -176,17 +178,21 @@ window.onload = function() {
         //asteroid.anchor.setTo(0.5, 0.5);
         //game.add.tween(asteroid).to({ y: game.height + (1600 + asteroid.y) }, 20000, Phaser.Easing.Linear.None, true);
 
-            timer = game.time.now + cntTime;
-            ast = asteroid.getFirstDead();
-            ast.reset(game.world.randomX + 200, -150);
-            game.add.tween(ast).to({ y: game.height + (670 + asteroid.y) }, 20000, Phaser.Easing.Linear.None, true);
+        check++;
 
-        if (cntAst < 5 && cntTime > 500) {
+        timer = game.time.now + 2500;
+        //ast = asteroid.getFirstDead();
+        ast = asteroid.create(game.world.randomX, -150, 'asteroid');
+        game.physics.enable(ast, Phaser.Physics.ARCADE);
+        //ast.reset(game.world.randomX + 100, -150);
+        game.add.tween(ast).to({ y: game.height + (670 + asteroid.y) }, cnt, Phaser.Easing.Linear.None, true);
+
+        if (cntAst < 4 && cnt > 1000) {
             cntAst++;
         }
-        if (cntAst == 5 && cntTime > 500) {
+        if (cntAst == 4 && cnt > 1000) {
             cntAst = 0;
-            cntTime -= 500;
+            cnt -= 1000;
         }
     }
 
