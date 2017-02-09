@@ -115,13 +115,10 @@ window.onload = function() {
         // physics
         game.physics.enable([bullet, ground], Phaser.Physics.ARCADE);
 
-        // score
-        textScore = game.add.text(15, 10, "Score: 0", { font: "25px Arial", fill: "#991414", align: "left" });
-
         // sound
         explosion = game.add.audio('explosion');
         end = game.add.audio('end');
-        music = new Audio('loop');
+        music = new Audio('assets/soundeffects/BLEP.ogg');
         music.play();
 
         //music.play();
@@ -132,6 +129,9 @@ window.onload = function() {
         ground.anchor.setTo(0.5, 0.5);
         arm.anchor.setTo(0.05, 0.5);
         cowboy.anchor.setTo(0.5, 0.5);
+
+        // score
+        textScore = game.add.text(15, 10, "Score: 0", { font: "25px Arial", fill: "#991414", align: "left" });
 
         ranAst();
         //game.time.events.loop(Phaser.Timer.SECOND * 5, ranAst, this);
