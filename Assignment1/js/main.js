@@ -52,7 +52,7 @@ window.onload = function() {
 
         this.game.load.audio('explosion', 'assets/soundeffects/exp.ogg');
         this.game.load.audio('end', 'assets/soundeffects/gameover.ogg');
-        this.game.load.audio('loop', 'assets/soundeffects/BLEP.ogg');
+        //this.game.load.audio('loop', 'assets/soundeffects/BLEP.ogg');
     }
     
     // sprite variables
@@ -102,10 +102,6 @@ window.onload = function() {
         arm = game.add.sprite(139, game.world.centerY + 120, 'arm');
         cowboy = game.add.sprite(150, game.world.centerY + 150, 'cowboy');
         asteroid = game.add.group();
-        
-        //asteroid.createMultiple(50, 'asteroid');
-        //asteroid.setAll('checkWorldBounds', true);
-        //asteroid.setAll('outOfBoundsKill', true);
 
         // bullet sprite info!   
         bullet.createMultiple(100, 'bullet');
