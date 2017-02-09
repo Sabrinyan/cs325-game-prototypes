@@ -118,11 +118,6 @@ window.onload = function() {
         // sound
         explosion = game.add.audio('explosion');
         end = game.add.audio('end');
-        music = new Audio('assets/soundeffects/BLEP.ogg');
-        music.play();
-
-        //music.play();
-        music.loop = true;
 
         // sprite anchor set to middle of the image - centered
         sky.anchor.setTo(0.5, 0.5);
@@ -134,9 +129,6 @@ window.onload = function() {
         textScore = game.add.text(15, 10, "Score: 0", { font: "25px Arial", fill: "#991414", align: "left" });
 
         ranAst();
-        //game.time.events.loop(Phaser.Timer.SECOND * 5, ranAst, this);
-
-        //arm.body.allowRotation = false;
     }
     
     function update() {
@@ -152,7 +144,7 @@ window.onload = function() {
         // checks if user is trying to fire a bullet
         game.input.onDown.add(fire, this);
         // checks if valid time has passed for another asteroid to spawn
-        if (game.time.now > timer && check == 0) {
+        if (check == 0) {
 
             ranAst();
         }
@@ -164,7 +156,6 @@ window.onload = function() {
     // function that handles what happens if the bullet hits the asteroid
     function bulAst() {
 
-        //asteroid.remove(ast);
         ast.destroy();
         check--;
         explosion.play();
@@ -176,7 +167,6 @@ window.onload = function() {
     function over() {
 
         end.play();
-        music.stop();
         game.paused = true;
         textOver = game.add.text(game.world.centerX, game.world.centerY, "GAME OVER", { font: "75px Arial", fill: "#991414", align: "center" });
     }
@@ -193,10 +183,9 @@ window.onload = function() {
         check++;
 
         timer = game.time.now + 2500;
-        //ast = asteroid.getFirstDead();
         ast = asteroid.create(game.world.randomX, -150, 'asteroid');
+        ast.anchor.setTo(0.5, 0.5);
         game.physics.enable(ast, Phaser.Physics.ARCADE);
-        //ast.reset(game.world.randomX + 100, -150);
         game.add.tween(ast).to({ y: game.height + (670 + asteroid.y) }, cnt, Phaser.Easing.Linear.None, true);
 
         if (cntAst < 4 && cnt > 1000) {
