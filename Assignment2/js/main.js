@@ -72,13 +72,17 @@ window.onload = function() {
     var doctor;
     var request;
     var cnt;
+    var textChances;
+    var textOver;
     var textScore;
     var chances;
+    var score;
 
 
     function create() {
 
         chances = 3;
+        score = 0;
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
@@ -107,7 +111,8 @@ window.onload = function() {
 
         game.time.events.loop(Phaser.Timer.SECOND * 3, docOrders, this);
 
-        textScore = game.add.text(15, 10, "Correct? -", { font: "25px Arial", fill: "#991414", align: "left" });
+        textChances = game.add.text(15, 10, "Chances: 3", { font: "25px Arial", fill: "#991414", align: "left" });
+        textScore = game.add.text(15, 35, "Score: 0", { font: "25px Arial", fill: "#991414", align: "left" });
     }
     
     function update() {
@@ -123,6 +128,15 @@ window.onload = function() {
         game.physics.arcade.overlap(doctor, lung, lungKill);
         game.physics.arcade.overlap(doctor, stomach, stomachKill);
         game.physics.arcade.overlap(doctor, eye, eyeKill);
+
+        if (chances == 0)
+            gameover();
+    }
+
+    function gameover() {
+        Phaser.Keyboard.enabled = false;
+        game.paused = true;
+        textOver = game.add.text(200, 250, "YOU'RE FIRED", { font: "75px Arial", fill: "#991414", align: "center" });
     }
 
     function docOrders() {
@@ -150,20 +164,58 @@ window.onload = function() {
     
     //functions that kill the organ when recieved by the doctor
     function heartKill() {
-        if (cnt != 1)
-            textScore.setText("Correct? NO!");
+        if (cnt != 1) {
+            chances--;
+            textChances.setText("Chances: " + chances);
+        }
+        else {
+            score += 10;
+            textScore.setText("Score: " + score);
+        }
         heart.kill();
     }
     function liverKill() {
+        if (cnt != 2) {
+            chances--;
+            textChances.setText("Chances: " + chances);
+        }
+        else {
+            score += 10;
+            textScore.setText("Score: " + score);
+        }
         liver.kill();
     }
     function lungKill() {
+        if (cnt != 3) {
+            chances--;
+            textChances.setText("Chances: " + chances);
+        }
+        else {
+            score += 10;
+            textScore.setText("Score: " + score);
+        }
         lung.kill();
     }
     function stomachKill() {
+        if (cnt != 4) {
+            chances--;
+            textChances.setText("Chances: " + chances);
+        }
+        else {
+            score += 10;
+            textScore.setText("Score: " + score);
+        }
         stomach.kill();
     }
     function eyeKill() {
+        if (cnt != 5) {
+            chances--;
+            textChances.setText("Chances: " + chances);
+        }
+        else {
+            score += 10;
+            textScore.setText("Score: " + score);
+        }
         eye.kill();
     }
 

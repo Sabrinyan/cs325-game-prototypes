@@ -1,0 +1,4 @@
+http://phaser.io/examples/v2/time/basic-repeat-event
+http://stackoverflow.com/questions/130396/are-there-constants-in-javascript
+http://www.html5gamedevs.com/topic/5320-how-to-detect-collision-and-restart-the-game/
+http://www.html5gamedevs.com/topic/7897-phaserphysicsarcadecollide-and-update/
