@@ -53,36 +53,48 @@ window.onload = function() {
 
     }
    
+    // constants
     const G = 800;
     const X_VELOCITY = 300;
     const Y_VELOCITY = -400;
+    var score100;
+    var score250;
 
+    // sprites
+    var doctor;
     var heart;
     var liver;
     var lung;
     var stomach;
     var eye;
 
+    // keys
     var pressQ;
     var pressW;
     var pressE;
     var pressR;
     var pressT;
 
-    var doctor;
-    var request;
-    var cnt;
+    // helper vars
+    var request; // doctor's request
+    var cnt; // the number for the organ requested
+    var chances;
+    var score;
+    var requestTime;
+    var loopTime;
+
+    //text
     var textChances;
     var textOver;
     var textScore;
-    var chances;
-    var score;
-
 
     function create() {
 
         chances = 3;
         score = 0;
+        requestTime = 3000;
+        score100 = false;
+        score250 = false;
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
@@ -109,7 +121,8 @@ window.onload = function() {
         pressR = game.input.keyboard.addKey(Phaser.Keyboard.R);
         pressT = game.input.keyboard.addKey(Phaser.Keyboard.T);
 
-        game.time.events.loop(Phaser.Timer.SECOND * 3, docOrders, this);
+        loopTime = game.time.events.loop(Phaser.Timer.SECOND, docOrders, this);
+        loopTime.delay = requestTime;
 
         textChances = game.add.text(15, 10, "Chances: 3", { font: "25px Arial", fill: "#991414", align: "left" });
         textScore = game.add.text(15, 35, "Score: 0", { font: "25px Arial", fill: "#991414", align: "left" });
@@ -129,8 +142,23 @@ window.onload = function() {
         game.physics.arcade.overlap(doctor, stomach, stomachKill);
         game.physics.arcade.overlap(doctor, eye, eyeKill);
 
+        if (score == 100 && score100 == false)
+            difficulty
+        if (score == 250 && score250 == false)
+            difficulty
+
         if (chances == 0)
             gameover();
+    }
+
+    function difficulty() {
+        requestTime -= 500;
+        loopTime.delay = requestTime;
+
+        if (score == 100)
+            score100 = true;
+        if (score == 250)
+            score250 = true;
     }
 
     function gameover() {
@@ -141,7 +169,7 @@ window.onload = function() {
 
     function docOrders() {
 
-        cnt = Math.floor(Math.random() * 6);
+        cnt = Math.floor(Math.random() * 5) + 1;
 
         if (cnt == 1) 
             request = game.add.sprite(701, game.world.centerY, 'h_button');
@@ -151,11 +179,11 @@ window.onload = function() {
             request = game.add.sprite(701, game.world.centerY, 'lu_button');
         else if (cnt == 4)
             request = game.add.sprite(701, game.world.centerY, 's_button');
-        else
+        else if (cnt == 5)
             request = game.add.sprite(701, game.world.centerY, 'e_button');
 
         request.anchor.setTo(0.5, 0.5);
-        game.time.events.repeat(Phaser.Timer.SECOND * 2, 1, deleteRequest, this);
+        game.time.events.repeat(Phaser.Timer.SECOND * ((requestTime/1000) - 1), 1, deleteRequest, this);
     }
 
     function deleteRequest() {
