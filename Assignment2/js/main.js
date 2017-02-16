@@ -41,15 +41,17 @@ window.onload = function() {
         this.game.load.image('doctor', 'assets/doctor.png');
 
         //buttons
-        this.game.load.image("h_button", 'assets/heart_button.png');
-        this.game.load.image("li_button", 'assets/liver_button.png');
-        this.game.load.image("lu_button", 'assets/lung_button.png');
-        this.game.load.image("s_button", 'assets/stomach_button.png');
-        this.game.load.image("e_button", 'assets/eye_button.png');
+        this.game.load.image('h_button', 'assets/heart_button.png');
+        this.game.load.image('li_button', 'assets/liver_button.png');
+        this.game.load.image('lu_button', 'assets/lung_button.png');
+        this.game.load.image('s_button', 'assets/stomach_button.png');
+        this.game.load.image('e_button', 'assets/eye_button.png');
 
         //text boxes
-        this.game.load.image("ptext", 'assets/player_text.png');
-        this.game.load.image("dtext", 'assets/doctor_text.png');
+        this.game.load.image('ptext', 'assets/player_text.png');
+        this.game.load.image('dtext', 'assets/doctor_text.png');
+
+        this.game.load.audio('main', 'assets/soundeffects/main.ogg');
 
     }
    
@@ -57,8 +59,10 @@ window.onload = function() {
     const G = 800;
     const X_VELOCITY = 300;
     const Y_VELOCITY = -400;
-    var score100;
-    var score250;
+    var score100 = false;
+    var score200 = false;
+    var score300 = false;
+    var score400 = false;
 
     // sprites
     var doctor;
@@ -88,13 +92,13 @@ window.onload = function() {
     var textOver;
     var textScore;
 
+    var music;
+
     function create() {
 
         chances = 3;
         score = 0;
         requestTime = 3000;
-        score100 = false;
-        score250 = false;
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
@@ -124,8 +128,11 @@ window.onload = function() {
         loopTime = game.time.events.loop(Phaser.Timer.SECOND, docOrders, this);
         loopTime.delay = requestTime;
 
-        textChances = game.add.text(15, 10, "Chances: 3", { font: "25px Arial", fill: "#991414", align: "left" });
-        textScore = game.add.text(15, 35, "Score: 0", { font: "25px Arial", fill: "#991414", align: "left" });
+        textChances = game.add.text(275, 350, "Chances: 3", { font: "25px Arial", fill: "#991414", align: "left" });
+        textScore = game.add.text(500, 350, "Score: 0", { font: "25px Arial", fill: "#991414", align: "left" });
+
+        music = game.add.audio('main');
+        music.play();
     }
     
     function update() {
@@ -143,9 +150,13 @@ window.onload = function() {
         game.physics.arcade.overlap(doctor, eye, eyeKill);
 
         if (score == 100 && score100 == false)
-            difficulty
-        if (score == 250 && score250 == false)
-            difficulty
+            difficulty();
+        if (score == 200 && score200 == false)
+            difficulty();
+        if (score == 300 && score300 == false)
+            difficulty();
+        if (score == 400 && score300 == false)
+            difficulty();
 
         if (chances == 0)
             gameover();
@@ -157,8 +168,12 @@ window.onload = function() {
 
         if (score == 100)
             score100 = true;
-        if (score == 250)
-            score250 = true;
+        if (score == 200)
+            score200 = true;
+        if (score == 300)
+            score300 = true;
+        if (score == 400)
+            score400 = true;
     }
 
     function gameover() {
