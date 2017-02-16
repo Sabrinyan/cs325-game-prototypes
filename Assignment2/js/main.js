@@ -131,8 +131,7 @@ window.onload = function() {
         textChances = game.add.text(275, 350, "Chances: 3", { font: "25px Arial", fill: "#991414", align: "left" });
         textScore = game.add.text(500, 350, "Score: 0", { font: "25px Arial", fill: "#991414", align: "left" });
 
-        music = new Phaser.Sound(game, 'main', 1, true);
-        music.play();
+        music = game.add.audio('main', 1, true);
     }
     
     function update() {
