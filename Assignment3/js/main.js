@@ -128,8 +128,14 @@ window.onload = function() {
 
     function randomDoor() {
 
-        doorX = Math.floor(Math.random() * 3) + 1;
-        doorY = Math.floor(Math.random() * 3) + 1;
+        if (cntLevel <= 5) {
+            doorX = Math.floor(Math.random() * 3) + 1;
+            doorY = Math.floor(Math.random() * 3) + 1;
+        }
+        else {
+            doorX = Math.floor(Math.random() * 3) + 1;
+            doorY = 0;
+        }
 
         if (doorX == 1 || doorY == 1) {
             d1 = true;
