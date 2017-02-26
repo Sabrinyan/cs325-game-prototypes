@@ -153,8 +153,10 @@ window.onload = function() {
     }
 
     function aclockPress() {
-        if (cnt == 1 && aclocksound.isPlaying == true)
+        if (cnt == 1 && aclocksound.isPlaying == true) {
             text.setText("Good 1!");
+            aclocksound.stop();
+        }
         else {
             text.setText("Yikes!");
             stressbar.crop.width = ((stress += 5) / 100) * stressbar.width;
@@ -162,8 +164,10 @@ window.onload = function() {
     }
 
     function gclockPress() {
-        if (cnt == 2 && gclocksound.isPlaying == true)
+        if (cnt == 2 && gclocksound.isPlaying == true) {
             text.setText("Good 2 !");
+            gclocksound.stop();
+        }
         else {
             text.setText("Yikes");
             stressbar.crop.width = ((stress += 5) / 100) * stressbar.width;
@@ -171,14 +175,18 @@ window.onload = function() {
     }
 
     function phonePress() {
-        if(cnt == 3 && phonesound.isPlaying == true)
+        if (cnt == 3 && phonesound.isPlaying == true) {
             text.setText("Bad!");
+            phonesound.stop();
+        }
 
     }
 
     function speakerPress() {
-        if (cnt == 4 && speakersound.isPlaying == true)
+        if (cnt == 4 && speakersound.isPlaying == true) {
             text.setText("Good 3!");
+            speakersound.stop();
+        }
         else {
             text.setText("Yikes");
             stressbar.crop.width = ((stress += 5) / 100) * stressbar.width;
