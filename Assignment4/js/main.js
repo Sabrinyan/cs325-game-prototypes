@@ -36,6 +36,7 @@ window.onload = function() {
         game.load.spritesheet('boi', 'assets/littleboy.png', 100, 240, 3);
 
         game.load.audio('phonesound', 'assets/soundeffects/phone.ogg');
+        game.load.audio('test', 'assets/soundeffects/test.wav');
     }
     
     var aclock;
@@ -46,16 +47,19 @@ window.onload = function() {
     var speaker;
     var table;
     var tv;
-
     var boy;
     
     var stressbar;
     var border;
     var stress = 0;
-
     var text;
+    var cnt;
 
     var phonesound;
+    var test;
+
+    var timeLoop;
+    var timeDelay = 5000;;
 
     function create() {
         //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
@@ -89,12 +93,8 @@ window.onload = function() {
 
         stressbar = game.add.sprite(0, 0, 'stressbar');
         stressbar.cropEnabled = true;
-        stressbar.crop.width = (stress / 100) * stressbar.width;
+        stressbar.crop.width = 0;
         game.add.sprite(0, 0, 'stressborder');
-
-        // Create a sprite at the center of the screen using the 'logo' image.
-        // Anchor the sprite at its center, as opposed to its top-left corner.
-        // so it will be truly centered.
 
         aclock.inputEnabled = true;
         gclock.inputEnabled = true;
@@ -106,32 +106,51 @@ window.onload = function() {
         // Add some text using a CSS style.
         // Center it in X, and position its top 15 pixels from the top of the world.
         var style = { font: "25px Verdana", fill: "#9999ff", align: "center" };
-        text = game.add.text(this.game.world.centerX, 15, "...", style);
+        text = game.add.text(this.game.world.centerX, 15, "Have your volume up!", style);
         text.anchor.setTo(0.5, 0.0);
 
+        timeLoop = game.time.events.loop(Phaser.Timer.SECOND, time, this);
+        timeLoop.delay = timeDelay;
+
         // When you click on the sprite, you go back to the MainMenu.
-        phonesound = game.add.audio('phonesound');
-        phonesound.play();
+        phonesound = game.add.audio('phonesound', 1, true);
+        test = game.add.audio('test', 1, true);
     }
     
     function update() {
+
+        laptop.events.onInputDown.add(laptopPress);
+        phone.events.onInputDown.add(phonePress);
 
         //d1.events.onInputDown.add(gone1);
         //d2.events.onInputDown.add(gone2);
         //d3.events.onInputDown.add(gone3);
     }
 
-    function gone1() {
-        text.setText("Good!");
+    function time() {
+        cnt = Math.floor(Math.random() * 2) + 1;
+
+        if (cnt == 1) {
+            test.play();
+        }
+        else {
+            phonesound.play();
+        }
     }
 
-    function gone2() {
-        text.setText("Bad!");
-
+    function laptopPress() {
+        if(cnt == 1 && test.isPlaying == true)
+            text.setText("Good!");
+        else {
+            text.setText("Yikes!");
+            stressbar.crop.width = ((stress +=5) / 100) * stressbar.width;
+        }
     }
 
-    function gone3() {
-        text.setText("Good!");
+    function phonePress() {
+        
+        if(cnt == 2 && phonesound.isPlaying == true)
+            text.setText("Bad!");
 
     }
 };
