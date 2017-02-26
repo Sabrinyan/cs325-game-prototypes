@@ -154,7 +154,7 @@ window.onload = function() {
     }
 
     function aclockPress() {
-        if (cnt == 1 && aclocksound.isPlaying == true) {
+        if (aclocksound.isPlaying == true) {
             text.setText("Good 1!");
             aclocksound.stop();
         }
@@ -166,7 +166,7 @@ window.onload = function() {
     }
 
     function gclockPress() {
-        if (cnt == 2 && gclocksound.isPlaying == true) {
+        if (gclocksound.isPlaying == true) {
             text.setText("Good 2 !");
             gclocksound.stop();
         }
@@ -178,7 +178,7 @@ window.onload = function() {
     }
 
     function phonePress() {
-        if (cnt == 3 && phonesound.isPlaying == true) {
+        if (phonesound.isPlaying == true) {
             text.setText("Bad!");
             stress = 100;
             stressbar.width = (stress / 100);
@@ -188,7 +188,7 @@ window.onload = function() {
     }
 
     function speakerPress() {
-        if (cnt == 4 && speakersound.isPlaying == true) {
+        if (speakersound.isPlaying == true) {
             text.setText("Good 3!");
             speakersound.stop();
         }
