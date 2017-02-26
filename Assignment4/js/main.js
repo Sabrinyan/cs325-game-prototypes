@@ -97,7 +97,7 @@ window.onload = function() {
 
         stressbar = game.add.sprite(0, 0, 'stressbar');
         stressbar.cropEnabled = true;
-        stressbar.crop.width = 0;
+        stressbar.width = stress;
         game.add.sprite(0, 0, 'stressborder');
 
         aclock.inputEnabled = true;
@@ -136,6 +136,7 @@ window.onload = function() {
     }
 
     function time() {
+
         cnt = Math.floor(Math.random() * 4) + 1;
 
         if (cnt == 1) {
@@ -159,7 +160,8 @@ window.onload = function() {
         }
         else {
             text.setText("Yikes!");
-            stressbar.crop.width = ((stress += 5) / 100) * stressbar.width;
+            stress += 10;
+            stressbar.width = (stress / 100);
         }
     }
 
@@ -170,13 +172,16 @@ window.onload = function() {
         }
         else {
             text.setText("Yikes");
-            stressbar.crop.width = ((stress += 5) / 100) * stressbar.width;
+            stress += 10;
+            stressbar.width = (stress / 100);
         }
     }
 
     function phonePress() {
         if (cnt == 3 && phonesound.isPlaying == true) {
             text.setText("Bad!");
+            stress = 100;
+            stressbar.width = (stress / 100);
             phonesound.stop();
         }
 
@@ -189,7 +194,8 @@ window.onload = function() {
         }
         else {
             text.setText("Yikes");
-            stressbar.crop.width = ((stress += 5) / 100) * stressbar.width;
+            stress += 10;
+            stressbar.width = (stress / 100);
         }
     }
 
