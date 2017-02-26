@@ -35,8 +35,10 @@ window.onload = function() {
 
         game.load.spritesheet('boi', 'assets/littleboy.png', 100, 240, 3);
 
+        game.load.audio('aclocksound', 'assets/soundeffects/alarm.ogg');
+        game.load.audio('gclocksound', 'assets/soundeffects/gclock.ogg');
         game.load.audio('phonesound', 'assets/soundeffects/phone.ogg');
-        game.load.audio('test', 'assets/soundeffects/test.wav');
+        game.load.audio('speakersound', 'assets/soundeffects/speaker.ogg');
     }
     
     var aclock;
@@ -55,8 +57,10 @@ window.onload = function() {
     var text;
     var cnt;
 
+    var aclocksound;
+    var gclocksound;
     var phonesound;
-    var test;
+    var speakersound;
 
     var timeLoop;
     var timeDelay = 5000;;
@@ -113,14 +117,18 @@ window.onload = function() {
         timeLoop.delay = timeDelay;
 
         // When you click on the sprite, you go back to the MainMenu.
+        aclocksound = game.add.audio('aclocksound', 1, true);
+        gclocksound = game.add.audio('gclocksound', 1, true);
         phonesound = game.add.audio('phonesound', 1, true);
-        test = game.add.audio('test', 1, true);
+        speakersound = game.add.audio('speakersound', 1, true);
     }
     
     function update() {
 
-        laptop.events.onInputDown.add(laptopPress);
+        aclock.events.onInputDown.add(aclockPress);
+        gclock.events.onInputDown.add(gclockPress);
         phone.events.onInputDown.add(phonePress);
+        speaker.events.onInputDown.add(speakerPress);
 
         //d1.events.onInputDown.add(gone1);
         //d2.events.onInputDown.add(gone2);
@@ -128,29 +136,58 @@ window.onload = function() {
     }
 
     function time() {
-        cnt = Math.floor(Math.random() * 2) + 1;
+        cnt = Math.floor(Math.random() * 4) + 1;
 
         if (cnt == 1) {
-            test.play();
+            aclocksound.play();
         }
-        else {
+        if (cnt == 2) {
+            gclocksound.play();
+        }
+        if (cnt == 3) {
             phonesound.play();
+        }
+        if (cnt == 4) {
+            speakersound.play();
         }
     }
 
-    function laptopPress() {
-        if(cnt == 1 && test.isPlaying == true)
-            text.setText("Good!");
+    function aclockPress() {
+        if (cnt == 1 && aclocksound.isPlaying == true)
+            text.setText("Good 1!");
         else {
             text.setText("Yikes!");
-            stressbar.crop.width = ((stress +=5) / 100) * stressbar.width;
+            stressbar.crop.width = ((stress += 5) / 100) * stressbar.width;
+        }
+    }
+
+    function gclockPress() {
+        if (cnt == 2 && gclocksound.isPlaying == true)
+            text.setText("Good 2 !");
+        else {
+            text.setText("Yikes");
+            stressbar.crop.width = ((stress += 5) / 100) * stressbar.width;
         }
     }
 
     function phonePress() {
-        
-        if(cnt == 2 && phonesound.isPlaying == true)
+        if(cnt == 3 && phonesound.isPlaying == true)
             text.setText("Bad!");
 
     }
+
+    function speakerPress() {
+        if (cnt == 4 && speakersound.isPlaying == true)
+            text.setText("Good 3!");
+        else {
+            text.setText("Yikes");
+            stressbar.crop.width = ((stress += 5) / 100) * stressbar.width;
+        }
+    }
+
+    function laptopPress() {
+        
+    }
+
+    
 };
