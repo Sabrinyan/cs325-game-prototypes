@@ -121,9 +121,8 @@ window.onload = function() {
         text.anchor.setTo(0.5, 0.0);
 
         timeLoop = game.time.events.loop(Phaser.Timer.SECOND * 5, time, this);
-        timeStop = game.time.create(false);
-        timeStop.loop(1000, no, this);
-        timeStop.start();
+        timeStop = game.time.create(true);
+        timeStop.add(Phaser.Timer.SECOND * 3, no, this);
 
         // When you click on the sprite, you go back to the MainMenu.
         aclocksound = game.add.audio('aclocksound', 1, true);
@@ -138,28 +137,9 @@ window.onload = function() {
         gclock.events.onInputDown.add(gclockPress);
         phone.events.onInputDown.add(phonePress);
         speaker.events.onInputDown.add(speakerPress);
-                
-        if (timeCount == 3) {
-
-            if(aclocksound.isPlaying == true)
-                aclocksound.stop();
-            if (gclocksound.isPlaying == true)
-                gclocksound.stop();
-            if (phonesound.isPlaying == true)
-                phonesound.stop();
-            if (speakersound.isPlaying == true)
-                speakersound.stop();
-
-            text.setText("Yikes!");
-            stress += 10;
-            stressbar.width = (stress / 200);
-        }
 
         if (stress == 200)
             gameover();
-        //d1.events.onInputDown.add(gone1);
-        //d2.events.onInputDown.add(gone2);
-        //d3.events.onInputDown.add(gone3);
     }
 
     function time() {
@@ -183,24 +163,43 @@ window.onload = function() {
         if (cnt == 4 && speakersound.isPlaying == false) {
             speakersound.play();
         }
+
+        timeStop.start();
     }
 
     function no() {
-        timeCount++;
-        if (timeCount == 4)
-            timeCount = 0;
-
-        text.setText(timeCount);
+        switch(cnt) {
+            case 1:
+                aclocksound.stop();
+                text.setText("Yikes!");
+                stress += 10;
+                stressbar.width = (stress / 200);
+                break;
+            case 2:
+                gclocksound.stop();
+                text.setText("Yikes!");
+                stress += 10;
+                stressbar.width = (stress / 200);
+                break;
+            case 3:
+                phonesound.stop();
+                text.setText("Yikes!");
+                stress += 10;
+                stressbar.width = (stress / 200);
+                break;
+            case 4:
+                speakersound.stop();
+                text.setText("Yikes!");
+                stress += 10;
+                stressbar.width = (stress / 200);
+                break;
+            default:
+                
+        }
     }
 
     function aclockPress() {
         
-        if (timeCount == 3) {
-            aclocksound.stop();
-            text.setText("Yikes!");
-            stress += 10;
-            stressbar.width = (stress / 200);
-        }
         if (aclocksound.isPlaying == true) {
             text.setText("Good 1!");
             aclocksound.stop();
@@ -209,12 +208,6 @@ window.onload = function() {
 
     function gclockPress() {
 
-        if (timeCount == 3) {
-            gclocksound.stop();
-            text.setText("Yikes!");
-            stress += 10;
-            stressbar.width = (stress / 200);
-        }
         if (gclocksound.isPlaying == true) {
             text.setText("Good 2 !");
             gclocksound.stop();
@@ -223,12 +216,6 @@ window.onload = function() {
 
     function phonePress() {
 
-        if (timeCount == 3) {
-            phonesound.stop();
-            text.setText("Yikes!");
-            stress += 10;
-            stressbar.width = (stress / 200);
-        }
         if (phonesound.isPlaying == true) {
             text.setText("Bad!");
             stress = 200;
@@ -240,12 +227,6 @@ window.onload = function() {
 
     function speakerPress() {
 
-        if (timeCount == 3) {
-            speakersound.stop();
-            text.setText("Yikes!");
-            stress += 10;
-            stressbar.width = (stress / 200);
-        }
         if (speakersound.isPlaying == true) {
             text.setText("Good 3!");
             speakersound.stop();
