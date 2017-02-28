@@ -139,6 +139,22 @@ window.onload = function() {
         phone.events.onInputDown.add(phonePress);
         speaker.events.onInputDown.add(speakerPress);
                 
+        if (timeCount == 3) {
+
+            if(aclocksound.isPlaying == true)
+                aclocksound.stop();
+            if (gclocksound.isPlaying == true)
+                gclocksound.stop();
+            if (phonesound.isPlaying == true)
+                phonesound.stop();
+            if (speakersound.isPlaying == true)
+                speakersound.stop();
+
+            text.setText("Yikes!");
+            stress += 10;
+            stressbar.width = (stress / 200);
+        }
+
         if (stress == 200)
             gameover();
         //d1.events.onInputDown.add(gone1);
@@ -171,7 +187,7 @@ window.onload = function() {
 
     function no() {
         timeCount++;
-        if (timeCount == 3)
+        if (timeCount == 4)
             timeCount = 0;
 
         text.setText(timeCount);
