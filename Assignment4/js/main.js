@@ -155,16 +155,16 @@ window.onload = function() {
             stressbar.width = (stress / 200);
         }
 
-        if (cnt == 1) {
+        if (cnt == 1 && aclocksound.isPlaying == false) {
             aclocksound.play();
         }
-        if (cnt == 2) {
+        if (cnt == 2 && aclocksound.isPlaying == false) {
             gclocksound.play();
         }
-        if (cnt == 3) {
+        if (cnt == 3 && aclocksound.isPlaying == false) {
             phonesound.play();
         }
-        if (cnt == 4) {
+        if (cnt == 4 && aclocksound.isPlaying == false) {
             speakersound.play();
         }
     }
