@@ -153,23 +153,18 @@ window.onload = function() {
 
         if (cnt == 1 && aclocksound.isPlaying == false) {
             aclocksound.play();
-            timeStop.start();
         }
         if (cnt == 2 && gclocksound.isPlaying == false) {
             gclocksound.play();
-            timeStop.start();
-
         }
         if (cnt == 3 && phonesound.isPlaying == false) {
             phonesound.play();
-            timeStop.start();
         }
         if (cnt == 4 && speakersound.isPlaying == false) {
             speakersound.play();
-            timeStop.start();
         }
 
-        //timeStop.start();
+        timeStop.start();
     }
 
     function no() {
