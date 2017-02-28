@@ -122,8 +122,8 @@ window.onload = function() {
 
         timeLoop = game.time.events.loop(Phaser.Timer.SECOND * 5, time, this);
         timeStop = game.time.create(true);
-        timeStop.add(Phaser.Timer.SECOND * 3, no, this);
-
+        timeStop.loop(Phaser.Timer.SECOND * 3, no, this);
+        timeStop.start();
         // When you click on the sprite, you go back to the MainMenu.
         aclocksound = game.add.audio('aclocksound', 1, true);
         gclocksound = game.add.audio('gclocksound', 1, true);
@@ -164,7 +164,7 @@ window.onload = function() {
             speakersound.play();
         }
 
-        timeStop.start();
+        
     }
 
     function no() {
