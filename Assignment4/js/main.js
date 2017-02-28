@@ -53,7 +53,7 @@ window.onload = function() {
     
     var stressbar;
     var border;
-    var stress = 0;
+    var stress;
     var text;
     var cnt;
 
@@ -63,13 +63,18 @@ window.onload = function() {
     var speakersound;
 
     var timeLoop;
-    var timeDelay = 5000;;
+    var timeStop;
+    var timeDelay = 5000;
+    var timeCount;
 
     function create() {
         //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
         //game.physics.enable(this.bouncy, Phaser.Physics.ARCADE);
 
         game.add.tileSprite(0, 0, 900, 750, 'background');
+
+        stress = 0;
+        timeCount = 0;
 
         game.add.sprite(game.world.centerX - 100, game.world.centerY + 250, 'table1');
         game.add.sprite(game.world.centerX + 300, game.world.centerY + 150, 'table2');
@@ -115,6 +120,8 @@ window.onload = function() {
 
         timeLoop = game.time.events.loop(Phaser.Timer.SECOND, time, this);
         timeLoop.delay = timeDelay;
+        timeStop = game.time.create(false);
+        timeStop.loop(3000, stop, this);
 
         // When you click on the sprite, you go back to the MainMenu.
         aclocksound = game.add.audio('aclocksound', 1, true);
@@ -129,7 +136,9 @@ window.onload = function() {
         gclock.events.onInputDown.add(gclockPress);
         phone.events.onInputDown.add(phonePress);
         speaker.events.onInputDown.add(speakerPress);
-
+                
+        if (stress == 200)
+            gameover();
         //d1.events.onInputDown.add(gone1);
         //d2.events.onInputDown.add(gone2);
         //d3.events.onInputDown.add(gone3);
@@ -138,6 +147,11 @@ window.onload = function() {
     function time() {
 
         cnt = Math.floor(Math.random() * 4) + 1;
+
+        if (stress < 100) {
+            stress += 10;
+            stressbar.width = (stress / 200);
+        }
 
         if (cnt == 1) {
             aclocksound.play();
@@ -153,49 +167,68 @@ window.onload = function() {
         }
     }
 
+    function stop() {
+        timeCount++;
+        if (timeCount == 3)
+            timeCount = 0;
+    }
+
     function aclockPress() {
+        
+        if (timeCount == 3) {
+            aclocksound.stop();
+            text.setText("Yikes!");
+            stress += 10;
+            stressbar.width = (stress / 200);
+        }
         if (aclocksound.isPlaying == true) {
             text.setText("Good 1!");
             aclocksound.stop();
         }
-        else {
-            text.setText("Yikes!");
-            stress += 10;
-            stressbar.width = (stress / 100);
-        }
     }
 
     function gclockPress() {
+
+        if (timeCount == 3) {
+            gclocksound.stop();
+            text.setText("Yikes!");
+            stress += 10;
+            stressbar.width = (stress / 200);
+        }
         if (gclocksound.isPlaying == true) {
             text.setText("Good 2 !");
             gclocksound.stop();
         }
-        else {
-            text.setText("Yikes");
-            stress += 10;
-            stressbar.width = (stress / 100);
-        }
     }
 
     function phonePress() {
+
+        if (timeCount == 3) {
+            phonesound.stop();
+            text.setText("Yikes!");
+            stress += 10;
+            stressbar.width = (stress / 200);
+        }
         if (phonesound.isPlaying == true) {
             text.setText("Bad!");
-            stress = 100;
-            stressbar.width = (stress / 100);
+            stress = 200;
+            stressbar.width = (stress / 200);
             phonesound.stop();
         }
 
     }
 
     function speakerPress() {
+
+        if (timeCount == 3) {
+            speakersound.stop();
+            text.setText("Yikes!");
+            stress += 10;
+            stressbar.width = (stress / 200);
+        }
         if (speakersound.isPlaying == true) {
             text.setText("Good 3!");
             speakersound.stop();
-        }
-        else {
-            text.setText("Yikes");
-            stress += 10;
-            stressbar.width = (stress / 100);
         }
     }
 
@@ -203,5 +236,7 @@ window.onload = function() {
         
     }
 
-    
+    function gameover() {
+        game.paused = true;
+    }
 };
