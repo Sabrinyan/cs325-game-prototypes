@@ -122,7 +122,7 @@ window.onload = function() {
 
         timeLoop = game.time.events.loop(Phaser.Timer.SECOND * 5, time, this);
         timeStop = game.time.create(false);
-        timeStop.loop(3000, stop, this);
+        timeStop.loop(3000, no, this);
         timeStop.play();
 
         // When you click on the sprite, you go back to the MainMenu.
@@ -169,7 +169,7 @@ window.onload = function() {
         }
     }
 
-    function stop() {
+    function no() {
         timeCount++;
         if (timeCount == 3)
             timeCount = 0;
