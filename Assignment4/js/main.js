@@ -120,10 +120,10 @@ window.onload = function() {
         text = game.add.text(this.game.world.centerX, 15, "Have your volume up!", style);
         text.anchor.setTo(0.5, 0.0);
 
-        timeLoop = game.time.events.loop(Phaser.Timer.SECOND, time, this);
-        timeLoop.delay = timeDelay;
+        timeLoop = game.time.events.loop(Phaser.Timer.SECOND * 5, time, this);
         timeStop = game.time.create(false);
         timeStop.loop(3000, stop, this);
+        timeStop.play();
 
         // When you click on the sprite, you go back to the MainMenu.
         aclocksound = game.add.audio('aclocksound', 1, true);
@@ -158,13 +158,13 @@ window.onload = function() {
         if (cnt == 1 && aclocksound.isPlaying == false) {
             aclocksound.play();
         }
-        if (cnt == 2 && aclocksound.isPlaying == false) {
+        if (cnt == 2 && gclocksound.isPlaying == false) {
             gclocksound.play();
         }
-        if (cnt == 3 && aclocksound.isPlaying == false) {
+        if (cnt == 3 && phonesound.isPlaying == false) {
             phonesound.play();
         }
-        if (cnt == 4 && aclocksound.isPlaying == false) {
+        if (cnt == 4 && speakersound.isPlaying == false) {
             speakersound.play();
         }
     }
