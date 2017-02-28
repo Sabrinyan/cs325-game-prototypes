@@ -122,7 +122,7 @@ window.onload = function() {
 
         timeLoop = game.time.events.loop(Phaser.Timer.SECOND * 5, time, this);
         timeStop = game.time.create(true);
-        timeStop.loop(Phaser.Timer.SECOND * 3, no, this);
+        timeStop.add(Phaser.Timer.SECOND * 3, no, this);
 
         // When you click on the sprite, you go back to the MainMenu.
         aclocksound = game.add.audio('aclocksound', 1, true);
@@ -153,18 +153,23 @@ window.onload = function() {
 
         if (cnt == 1 && aclocksound.isPlaying == false) {
             aclocksound.play();
+            timeStop.start();
         }
         if (cnt == 2 && gclocksound.isPlaying == false) {
             gclocksound.play();
+            timeStop.start();
+
         }
         if (cnt == 3 && phonesound.isPlaying == false) {
             phonesound.play();
+            timeStop.start();
         }
         if (cnt == 4 && speakersound.isPlaying == false) {
             speakersound.play();
+            timeStop.start();
         }
 
-        timeStop.start();
+        //timeStop.start();
     }
 
     function no() {
