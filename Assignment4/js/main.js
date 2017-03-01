@@ -64,6 +64,11 @@ window.onload = function() {
     var phonesound;
     var speakersound;
 
+    var cntA;
+    var cntG;
+    var cntP;
+    var cntS;
+
     var timeLoop;
     var timeStop;
     var timeDelay = 5000;
@@ -123,7 +128,7 @@ window.onload = function() {
         timeLoop = game.time.events.loop(Phaser.Timer.SECOND * 5, time, this);
         timeStop = game.time.create(true);
         timeStop.loop(Phaser.Timer.SECOND * 3, no, this);
-        timeStop.start();
+        
         // When you click on the sprite, you go back to the MainMenu.
         aclocksound = game.add.audio('aclocksound', 1, true);
         gclocksound = game.add.audio('gclocksound', 1, true);
@@ -164,32 +169,32 @@ window.onload = function() {
             speakersound.play();
         }
 
-        
+        timeStop.start();
     }
 
     function no() {
         switch(cnt) {
             case 1:
                 aclocksound.stop();
-                text.setText("Yikes!");
+                text.setText("Yikes1");
                 stress += 10;
                 stressbar.width = (stress / 200);
                 break;
             case 2:
                 gclocksound.stop();
-                text.setText("Yikes!");
+                text.setText("Yikes2");
                 stress += 10;
                 stressbar.width = (stress / 200);
                 break;
             case 3:
                 phonesound.stop();
-                text.setText("Yikes!");
+                text.setText("Yikes3");
                 stress += 10;
                 stressbar.width = (stress / 200);
                 break;
             case 4:
                 speakersound.stop();
-                text.setText("Yikes!");
+                text.setText("Yikes4");
                 stress += 10;
                 stressbar.width = (stress / 200);
                 break;
