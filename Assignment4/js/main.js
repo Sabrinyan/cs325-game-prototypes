@@ -64,15 +64,7 @@ window.onload = function() {
     var phonesound;
     var speakersound;
 
-    var cntA;
-    var cntG;
-    var cntP;
-    var cntS;
-
     var timeLoop;
-    var timeStop;
-    var timeDelay = 5000;
-    var timeCount;
 
     var stressText;
 
@@ -83,7 +75,6 @@ window.onload = function() {
         game.add.tileSprite(0, 0, 900, 750, 'background');
 
         stress = 0;
-        timeCount = 0;
 
         game.add.sprite(game.world.centerX - 100, game.world.centerY + 250, 'table1');
         game.add.sprite(game.world.centerX + 300, game.world.centerY + 150, 'table2');
@@ -92,27 +83,23 @@ window.onload = function() {
         aclock = game.add.sprite(game.world.centerX + 75, game.world.centerY + 255, 'aclock');
         gclock = game.add.sprite(game.world.centerX + 225, game.world.centerY + 125, 'gclock');
         laptop = game.add.sprite(game.world.centerX + 375, game.world.centerY + 155, 'laptop');
-        //microwave = game.add.sprite(game.world.centerX, game.world.centerY, 'microwave');
         phone = game.add.sprite(game.world.centerX - 20, game.world.centerY + 250, 'phone');
         speaker = game.add.sprite(game.world.centerX - 150, game.world.centerY + 175, 'speaker');
         tv = game.add.sprite(game.world.centerX - 320, game.world.centerY + 90, 'tv');
 
         boy = game.add.sprite(game.world.centerX - 25, game.world.centerY, 'boi');
-        //boy.animations.add('sad');
-        //boy.animations.play('sad', 1, true);
 
         aclock.anchor.setTo(0.5, 0.5);
         gclock.anchor.setTo(0.5, 0.5);
         laptop.anchor.setTo(0.5, 0.5);
-        //microwave.anchor.setTo(0.5, 0.5);
         phone.anchor.setTo(0.5, 0.5);
         speaker.anchor.setTo(0.5, 0.5);
         tv.anchor.setTo(0.5, 0.5);
 
-        stressbar = game.add.sprite(0, 0, 'stressbar');
-        stressbar.cropEnabled = true;
-        stressbar.width = stress;
-        game.add.sprite(0, 0, 'stressborder');
+        //stressbar = game.add.sprite(0, 0, 'stressbar');
+        //stressbar.cropEnabled = true;
+        //stressbar.width = stress;
+        //game.add.sprite(0, 0, 'stressborder');
 
         aclock.inputEnabled = true;
         gclock.inputEnabled = true;
@@ -121,19 +108,14 @@ window.onload = function() {
         speaker.inputEnabled = true;
         tv.inputEnabled = true;
 
-        // Add some text using a CSS style.
-        // Center it in X, and position its top 15 pixels from the top of the world.
         var style = { font: "25px Verdana", fill: "#9999ff", align: "center" };
         text = game.add.text(this.game.world.centerX, 15, "Have your volume up!", style);
         text.anchor.setTo(0.5, 0.0);
-        stressText = game.add.text(this.game.world.centerX, 50, "Stress", style);
+        stressText = game.add.text(this.game.world.centerX, 50, "Stress: 0", style);
         stressText.anchor.setTo(0.5, 0.0);
 
         timeLoop = game.time.events.loop(Phaser.Timer.SECOND * 1, time, this);
-        //timeStop = game.time.create(true);
-        //timeStop.loop(Phaser.Timer.SECOND * 3, no, this);
-        
-        // When you click on the sprite, you go back to the MainMenu.
+
         aclocksound = game.add.audio('aclocksound', 1, true);
         gclocksound = game.add.audio('gclocksound', 1, true);
         phonesound = game.add.audio('phonesound', 1, true);
@@ -147,18 +129,23 @@ window.onload = function() {
         phone.events.onInputDown.add(phonePress);
         speaker.events.onInputDown.add(speakerPress);
 
-        if (stress == 100) {
+        //changes boys face - sadness over time :(
+        if (stress >= 100 && stress < 150) {
             boy.frame = 1;
         }
 
-        if (stress == 200) {
+        if (stress >= 150) {
             gameover();
             boy.frame = 2;
         }
 
-        
+        if (stress == 200) {
+            text.setText("GAME OVER - TOO MUCH STRESS :C");
+            gameover();
+        }
     }
 
+    //randomly generate sound to play
     function time() {
 
         cnt = Math.floor(Math.random() * 4) + 1;
@@ -181,36 +168,33 @@ window.onload = function() {
         }
     }
 
+    //stops sounds from playing too long
     function no1() {
             aclocksound.stop();
-            text.setText("Yikes1");
             stress += 20;
             stressText.setText("Stress: " + stress);
             stressbar.width = (stress / 200);
     }
     function no2() {
             gclocksound.stop();
-            text.setText("Yikes2");
             stress += 10;
             stressText.setText("Stress: " + stress);
             stressbar.width = (stress / 200);
     }
     function no3() {
             phonesound.stop();
-            text.setText("Yikes3");
     }
     function no4() {
             speakersound.stop();
-            text.setText("Yikes4");
             stress += 15;
             stressText.setText("Stress: " + stress);
             stressbar.width = (stress / 200);
     }
 
+    //checks what to do if object is pressed
     function aclockPress() {
         
         if (aclocksound.isPlaying == true) {
-            text.setText("Good 1!");
             aclocksound.stop();
         }
     }
@@ -218,7 +202,6 @@ window.onload = function() {
     function gclockPress() {
 
         if (gclocksound.isPlaying == true) {
-            text.setText("Good 2 !");
             gclocksound.stop();
         }
     }
@@ -226,7 +209,7 @@ window.onload = function() {
     function phonePress() {
 
         if (phonesound.isPlaying == true) {
-            text.setText("Bad!");
+            text.setText("GAME OVER - PHONE CALLS ARE SCARY!");
             stress = 200;
             stressbar.width = (stress / 200);
             phonesound.stop();
@@ -237,13 +220,8 @@ window.onload = function() {
     function speakerPress() {
 
         if (speakersound.isPlaying == true) {
-            text.setText("Good 3!");
             speakersound.stop();
         }
-    }
-
-    function laptopPress() {
-        
     }
 
     function gameover() {
