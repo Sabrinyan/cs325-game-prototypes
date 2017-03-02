@@ -97,7 +97,7 @@ window.onload = function() {
         speaker = game.add.sprite(game.world.centerX - 150, game.world.centerY + 175, 'speaker');
         tv = game.add.sprite(game.world.centerX - 320, game.world.centerY + 90, 'tv');
 
-        boy = game.add.sprite(game.world.centerX-25, game.world.centerY, 'boi');
+        boy = game.add.sprite(game.world.centerX - 25, game.world.centerY, 'boi');
         //boy.animations.add('sad');
         //boy.animations.play('sad', 1, true);
 
@@ -147,41 +147,44 @@ window.onload = function() {
         phone.events.onInputDown.add(phonePress);
         speaker.events.onInputDown.add(speakerPress);
 
-        if (stress == 200)
+        if (stress == 100) {
+            boy.frame = 1;
+        }
+
+        if (stress == 200) {
             gameover();
+            boy.frame = 2;
+        }
+
+        
     }
 
     function time() {
 
         cnt = Math.floor(Math.random() * 4) + 1;
 
-        if (stress < 100) {
-            stress += 10;
-            stressbar.width = (stress / 200);
-        }
-
         if (cnt == 1 && aclocksound.isPlaying == false) {
             aclocksound.play();
-            setTimeout(no1, 10000);
+            setTimeout(no1, 5000);
         }
         if (cnt == 2 && gclocksound.isPlaying == false) {
             gclocksound.play();
-            setTimeout(no2, 10000);
+            setTimeout(no2, 5000);
         }
         if (cnt == 3 && phonesound.isPlaying == false) {
             phonesound.play();
-            setTimeout(no3, 10000);
+            setTimeout(no3, 5000);
         }
         if (cnt == 4 && speakersound.isPlaying == false) {
             speakersound.play();
-            setTimeout(no4, 10000);
+            setTimeout(no4, 5000);
         }
     }
 
     function no1() {
             aclocksound.stop();
             text.setText("Yikes1");
-            stress += 10;
+            stress += 20;
             stressText.setText("Stress: " + stress);
             stressbar.width = (stress / 200);
     }
@@ -195,14 +198,11 @@ window.onload = function() {
     function no3() {
             phonesound.stop();
             text.setText("Yikes3");
-            stress += 10;
-            stressText.setText("Stress: " + stress);
-            stressbar.width = (stress / 200);
     }
     function no4() {
             speakersound.stop();
             text.setText("Yikes4");
-            stress += 10;
+            stress += 15;
             stressText.setText("Stress: " + stress);
             stressbar.width = (stress / 200);
     }
@@ -248,5 +248,6 @@ window.onload = function() {
 
     function gameover() {
         game.paused = true;
+        timeLoop.stop();
     }
 };
