@@ -114,7 +114,7 @@ window.onload = function() {
         stressText = game.add.text(this.game.world.centerX, 50, "Stress: 0", style);
         stressText.anchor.setTo(0.5, 0.0);
 
-        timeLoop = game.time.events.loop(Phaser.Timer.SECOND * 2, time, this);
+        timeLoop = game.time.events.loop(Phaser.Timer.SECOND * 1, time, this);
 
         aclocksound = game.add.audio('aclocksound', 1, true);
         gclocksound = game.add.audio('gclocksound', 1, true);
