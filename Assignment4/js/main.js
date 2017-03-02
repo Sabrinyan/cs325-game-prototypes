@@ -74,6 +74,8 @@ window.onload = function() {
     var timeDelay = 5000;
     var timeCount;
 
+    var stressText;
+
     function create() {
         //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
         //game.physics.enable(this.bouncy, Phaser.Physics.ARCADE);
@@ -124,8 +126,10 @@ window.onload = function() {
         var style = { font: "25px Verdana", fill: "#9999ff", align: "center" };
         text = game.add.text(this.game.world.centerX, 15, "Have your volume up!", style);
         text.anchor.setTo(0.5, 0.0);
+        stressText = game.add.text(this.game.world.centerX, 50, "Stress", style);
+        stressText.anchor.setTo(0.5, 0.0);
 
-        timeLoop = game.time.events.loop(Phaser.Timer.SECOND * 5, time, this);
+        timeLoop = game.time.events.loop(Phaser.Timer.SECOND * 1, time, this);
         //timeStop = game.time.create(true);
         //timeStop.loop(Phaser.Timer.SECOND * 3, no, this);
         
@@ -158,19 +162,19 @@ window.onload = function() {
 
         if (cnt == 1 && aclocksound.isPlaying == false) {
             aclocksound.play();
-            setTimeout(no1, 3000);
+            setTimeout(no1, 10000);
         }
         if (cnt == 2 && gclocksound.isPlaying == false) {
             gclocksound.play();
-            setTimeout(no2, 3000);
+            setTimeout(no2, 10000);
         }
         if (cnt == 3 && phonesound.isPlaying == false) {
             phonesound.play();
-            setTimeout(no3, 3000);
+            setTimeout(no3, 10000);
         }
         if (cnt == 4 && speakersound.isPlaying == false) {
             speakersound.play();
-            setTimeout(no4, 3000);
+            setTimeout(no4, 10000);
         }
     }
 
@@ -178,31 +182,29 @@ window.onload = function() {
             aclocksound.stop();
             text.setText("Yikes1");
             stress += 10;
+            stressText.setText("Stress: " + stress);
             stressbar.width = (stress / 200);
     }
     function no2() {
-        if (gclocksound.isPlaying == true) {
             gclocksound.stop();
             text.setText("Yikes2");
             stress += 10;
+            stressText.setText("Stress: " + stress);
             stressbar.width = (stress / 200);
-        }
     }
     function no3() {
-        if (phonesound.isPlaying == true) {
             phonesound.stop();
             text.setText("Yikes3");
             stress += 10;
+            stressText.setText("Stress: " + stress);
             stressbar.width = (stress / 200);
-        }
     }
     function no4() {
-        if (speakersound.isPlaying == true) {
             speakersound.stop();
             text.setText("Yikes4");
             stress += 10;
+            stressText.setText("Stress: " + stress);
             stressbar.width = (stress / 200);
-        }
     }
 
     function aclockPress() {
