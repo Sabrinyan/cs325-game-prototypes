@@ -170,25 +170,32 @@ window.onload = function() {
 
     //stops sounds from playing too long
     function no1() {
+        if (gclocksound.isPlaying == true) {
+
             aclocksound.stop();
             stress += 20;
             stressText.setText("Stress: " + stress);
             stressbar.width = (stress / 200);
+        }
     }
     function no2() {
+        if (gclocksound.isPlaying == true) {
             gclocksound.stop();
             stress += 10;
             stressText.setText("Stress: " + stress);
             stressbar.width = (stress / 200);
+        }
     }
     function no3() {
             phonesound.stop();
     }
     function no4() {
+        if (gclocksound.isPlaying == true) {
             speakersound.stop();
             stress += 15;
             stressText.setText("Stress: " + stress);
             stressbar.width = (stress / 200);
+        }
     }
 
     //checks what to do if object is pressed
