@@ -169,7 +169,7 @@ window.onload = function() {
             speakersound.play();
         }
 
-        setTimeout(no, 5000);
+        setTimeout(no, 4000);
     }
 
     function no() {
