@@ -170,8 +170,7 @@ window.onload = function() {
 
     //stops sounds from playing too long
     function no1() {
-        if (gclocksound.isPlaying == true) {
-
+        if (aclocksound.isPlaying == true) {
             aclocksound.stop();
             stress += 20;
             stressText.setText("Stress: " + stress);
@@ -190,7 +189,7 @@ window.onload = function() {
             phonesound.stop();
     }
     function no4() {
-        if (gclocksound.isPlaying == true) {
+        if (speakersound.isPlaying == true) {
             speakersound.stop();
             stress += 15;
             stressText.setText("Stress: " + stress);
