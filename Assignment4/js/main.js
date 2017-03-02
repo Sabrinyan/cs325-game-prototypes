@@ -158,49 +158,49 @@ window.onload = function() {
 
         if (cnt == 1 && aclocksound.isPlaying == false) {
             aclocksound.play();
+            setTimeout(no(aclocksound), 3000);
         }
         if (cnt == 2 && gclocksound.isPlaying == false) {
             gclocksound.play();
+            setTimeout(no(gclocksound), 3000);
         }
         if (cnt == 3 && phonesound.isPlaying == false) {
             phonesound.play();
+            setTimeout(no(phonesound), 3000);
         }
         if (cnt == 4 && speakersound.isPlaying == false) {
             speakersound.play();
+            setTimeout(no(speakersound), 3000);
         }
 
-        setTimeout(no, 4000);
+        
     }
 
-    function no() {
-        switch(cnt) {
-            case 1:
-                aclocksound.stop();
-                text.setText("Yikes1");
-                stress += 10;
-                stressbar.width = (stress / 200);
-                break;
-            case 2:
-                gclocksound.stop();
-                text.setText("Yikes2");
-                stress += 10;
-                stressbar.width = (stress / 200);
-                break;
-            case 3:
-                phonesound.stop();
-                text.setText("Yikes3");
-                stress += 10;
-                stressbar.width = (stress / 200);
-                break;
-            case 4:
-                speakersound.stop();
-                text.setText("Yikes4");
-                stress += 10;
-                stressbar.width = (stress / 200);
-                break;
-            default:
-                
+    function no(sound) {
+        if(sound.isPlaying == true) {
+            sound.stop();
+            text.setText("Yikes1");
+            stress += 10;
+            stressbar.width = (stress / 200);
         }
+        /*if(aclocksound.isPlaying == true) {
+            gclocksound.stop();
+            text.setText("Yikes2");
+            stress += 10;
+            stressbar.width = (stress / 200);
+        }                
+        if(aclocksound.isPlaying == true) {
+            phonesound.stop();
+            text.setText("Yikes3");
+            stress += 10;
+            stressbar.width = (stress / 200);
+        }                
+        if (aclocksound.isPlaying == true) {
+            speakersound.stop();
+            text.setText("Yikes4");
+            stress += 10;
+            stressbar.width = (stress / 200);
+        } */
     }
 
     function aclockPress() {
