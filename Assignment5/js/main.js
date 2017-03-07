@@ -86,6 +86,7 @@ window.onload = function() {
         randomDoor();
 
         hb = game.add.audio('heartbeat', 1, true);
+        hb.play();
     }
     
     function update() {
