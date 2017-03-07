@@ -217,7 +217,7 @@ window.onload = function() {
 
     function death() {
         go.play();
-        game.paused = true;
+        //game.paused = true;
         text.setText("YOU ARE NOW DEAD SORRY BUD");
     }
 
