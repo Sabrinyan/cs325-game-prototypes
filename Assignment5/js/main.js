@@ -22,6 +22,7 @@ window.onload = function() {
         game.load.spritesheet('door2', 'assets/door2.png', 200, 250, 5);
         game.load.spritesheet('door3', 'assets/door3.png', 200, 250, 5);
         game.load.audio('heartbeat', 'assets/heart.ogg');
+        game.load.audio('gameover', 'assets/gameover.ogg');
     }
     
     var door1;
@@ -51,6 +52,7 @@ window.onload = function() {
     var textTime;
 
     var hb;
+    var go;
 
     function create() {
 
@@ -85,7 +87,8 @@ window.onload = function() {
         game.time.events.loop(Phaser.Timer.SECOND, time, this);
         randomDoor();
 
-        hb = game.add.audio('heartbeat', 2, true);
+        hb = game.add.audio('heartbeat', 1, true);
+        go = game.add.audio('gameover', 1, false);
         hb.play();
     }
     
@@ -215,6 +218,7 @@ window.onload = function() {
     }
 
     function win() {
+        go.play();
         game.paused = true;
         text.setText("YOU'RE A LIVING WINNER BOI");
     }
