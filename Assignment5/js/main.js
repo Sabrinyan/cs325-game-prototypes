@@ -219,13 +219,13 @@ window.onload = function() {
     }
 
     function death() {
-        go.play();
+        //go.play();
         game.paused = true;
         text.setText("YOU ARE NOW DEAD SORRY BUD");
     }
 
     function win() {
-        win.play();
+        //win.play();
         game.paused = true;
         text.setText("YOU'RE A LIVING WINNER BOI");
     }
