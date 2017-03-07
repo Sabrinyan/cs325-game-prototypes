@@ -23,6 +23,7 @@ window.onload = function() {
         game.load.spritesheet('door3', 'assets/door3.png', 200, 250, 5);
         game.load.audio('heartbeat', 'assets/heart.ogg');
         game.load.audio('gameover', 'assets/gameover.ogg');
+        game.load.audio('win', 'assets/win.ogg');
     }
     
     var door1;
@@ -53,6 +54,7 @@ window.onload = function() {
 
     var hb;
     var go;
+    var win;
 
     function create() {
 
@@ -89,6 +91,7 @@ window.onload = function() {
 
         hb = game.add.audio('heartbeat', 1, true);
         go = game.add.audio('gameover', 1, false);
+        win = game.add.audio('win', 1, false);
         hb.play();
     }
     
@@ -213,12 +216,13 @@ window.onload = function() {
     }
 
     function death() {
+        go.play();
         game.paused = true;
         text.setText("YOU ARE NOW DEAD SORRY BUD");
     }
 
     function win() {
-        go.play();
+        win.play();
         game.paused = true;
         text.setText("YOU'RE A LIVING WINNER BOI");
     }
