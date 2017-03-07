@@ -110,8 +110,11 @@ window.onload = function() {
         if (anim3.isFinished)
             door3.frame = 0;
 
-        if (cntSec == 0)
-            death();
+        if (cntSec == 0) {
+            go.play();
+            if (go.isPlaying == false)
+                death();
+        }
         if (cntLevel == 10)
             win();
     }
@@ -216,11 +219,9 @@ window.onload = function() {
     }
 
     function death() {
-        go.play();
-        if (go.isPlaying == false) {
-            game.paused = true;
-            text.setText("YOU ARE NOW DEAD SORRY BUD");
-        }
+
+        game.paused = true;
+        text.setText("YOU ARE NOW DEAD SORRY BUD");
     }
 
     function win() {
