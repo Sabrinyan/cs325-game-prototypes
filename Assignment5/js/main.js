@@ -90,8 +90,8 @@ window.onload = function() {
         randomDoor();
 
         hb = game.add.audio('heartbeat', 1, true);
-        go = game.add.audio('gameover', 1, false);
-        win = game.add.audio('win', 1, false);
+        go = game.add.audio('gameover');
+        win = game.add.audio('win');
         hb.play();
     }
     
@@ -219,7 +219,7 @@ window.onload = function() {
     }
 
     function death() {
-
+        go.play();
         game.paused = true;
         text.setText("YOU ARE NOW DEAD SORRY BUD");
     }
