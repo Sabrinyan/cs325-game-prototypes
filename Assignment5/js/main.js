@@ -21,7 +21,7 @@ window.onload = function() {
         game.load.spritesheet('door1', 'assets/door1.png', 200, 250, 5);
         game.load.spritesheet('door2', 'assets/door2.png', 200, 250, 5);
         game.load.spritesheet('door3', 'assets/door3.png', 200, 250, 5);
-        game.load.audio('heartbeat', 'assets/heartbeat.wav');
+        game.load.audio('heartbeat', 'assets/heart.ogg');
     }
     
     var door1;
