@@ -85,7 +85,7 @@ window.onload = function() {
         game.time.events.loop(Phaser.Timer.SECOND, time, this);
         randomDoor();
 
-        hb = game.add.audio('heartbeat', 1, true);
+        hb = game.add.audio('heartbeat', 2, true);
         hb.play();
     }
     
