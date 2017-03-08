@@ -21,6 +21,7 @@ window.onload = function() {
         game.load.spritesheet('door1', 'assets/door1.png', 200, 250, 5);
         game.load.spritesheet('door2', 'assets/door2.png', 200, 250, 5);
         game.load.spritesheet('door3', 'assets/door3.png', 200, 250, 5);
+        game.load.spritesheet('hint', 'assets/shine.png', 200, 250, 5);
         game.load.audio('heartbeat', 'assets/heart.ogg');
         game.load.audio('gameover', 'assets/gameover.ogg');
         game.load.audio('win', 'assets/win.ogg');
@@ -29,16 +30,17 @@ window.onload = function() {
     var door1;
     var door2;
     var door3;
-    var doorX;
-    var doorY;
     
     var anim1;
     var anim2;
     var anim3;
 
+    //helper variables
     var d1 = false;
     var d2 = false;
     var d3 = false;
+    var doorX;
+    var doorY;
 
     var arrow;
     var left;
@@ -56,6 +58,9 @@ window.onload = function() {
     var go;
     var win;
 
+    var hint;
+    var animHint;
+
     function create() {
 
         cntLevel = 1;
@@ -65,15 +70,19 @@ window.onload = function() {
         door2 = game.add.sprite(game.world.centerX, game.world.centerY + 50, 'door2', 5);
         door3 = game.add.sprite(game.world.centerX + 250, game.world.centerY + 50, 'door3', 5);
         arrow = game.add.sprite(game.world.centerX, game.world.centerY - 100, 'arrow');
+        hint = game.add.sprite(-500, game.world.centerY + 50, 'hint', 5);
 
         door1.anchor.setTo(0.5, 0.5);
         door2.anchor.setTo(0.5, 0.5);
         door3.anchor.setTo(0.5, 0.5);
         arrow.anchor.setTo(0.5, 0.5);
+        hint.anchor.setTo(0.5, 0.5);
 
         anim1 = door1.animations.add('open1');
         anim2 = door2.animations.add('open2');
         anim3 = door3.animations.add('open3');
+        animHint = hint.animation.add('shine');
+        animHint.play(7, true);
 
         left = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
         right = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
@@ -119,18 +128,6 @@ window.onload = function() {
             win();
     }
 
-    function pickDoor() {
-        if (arrow.position.x == game.world.centerX - 250) {
-            gone1();
-        }
-        else if (arrow.position.x == game.world.centerX) {
-            gone2();
-        }
-        else {
-            gone3();
-        }
-    }
-
     function goleft() {
         if (arrow.position.x == game.world.centerX)
             arrow.x = game.world.centerX - 250;
@@ -166,12 +163,95 @@ window.onload = function() {
             doorY = 0;
         }
 
+        if (cntLevel < 8)
+            hint();
+
         if (doorX == 1 || doorY == 1)
             d1 = true;
         if (doorX == 2 || doorY == 2)
             d2 = true;
         if (doorX == 3 || doorY == 3)
             d3 = true;
+    }
+
+    function pickDoor() {
+        if (arrow.position.x == game.world.centerX - 250) {
+            gone1();
+        }
+        else if (arrow.position.x == game.world.centerX) {
+            gone2();
+        }
+        else {
+            gone3();
+        }
+    }
+
+    function hint() {
+
+        var x = Math.floor(Math.random() * 2) + 1;
+        var y = Math.floor(Math.random() * 4) + 1;
+        var z = Math.floor(Math.random() * 2) + 1;
+
+        if (x == 1) {
+            if (y >= 1 && y <= 3) { //give hint
+                if (d1 && d2) {
+                    if (z == 1)
+                        hint.x = game.world.centerX - 250;
+                    else
+                        hint.x = game.world.centerX;
+                }
+                else if (d2 && d3) {
+                    if (z == 1)
+                        hint.x = game.world.centerX;
+                    else
+                        hint.x = game.world.centerX + 250;
+                }
+                else if (d1 && d3) {
+                    if (z == 1)
+                        hint.x = game.world.centerX - 250;
+                    else
+                        hint.x = game.world.centerX + 250;
+                }
+                else if (d1) {
+                    hint.x = game.world.centerX - 250;
+                }
+                else if (d2) {
+                    hint.x = game.world.centerX;
+                }
+                else { //d3 is true
+                    hint.x = game.world.centerX + 250;
+                }
+            }
+            else {
+                if (!d1 && !d2) {
+                    if (z == 1)
+                        hint.x = game.world.centerX - 250;
+                    else
+                        hint.x = game.world.centerX;
+                }
+                else if (!d2 && !d3) {
+                    if (z == 1)
+                        hint.x = game.world.centerX;
+                    else
+                        hint.x = game.world.centerX + 250;
+                }
+                else if (!d1 && !d3) {
+                    if (z == 1)
+                        hint.x = game.world.centerX - 250;
+                    else
+                        hint.x = game.world.centerX + 250;
+                }
+                else if (!d1) {
+                    hint.x = game.world.centerX - 250;
+                }
+                else if (!d2) {
+                    hint.x = game.world.centerX;
+                }
+                else { //d3 is true
+                    hint.x = game.world.centerX + 250;
+                }
+            }
+        }
     }
 
     function gone1() {
@@ -188,7 +268,7 @@ window.onload = function() {
 
     function gone2() {
 
-        anim2.play(10, false);
+        anim2.play(7, false);
         nextLvl();
 
         if (d2 == true)
