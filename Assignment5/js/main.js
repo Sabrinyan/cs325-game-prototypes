@@ -66,11 +66,11 @@ window.onload = function() {
         cntLevel = 1;
         cntSec = 10;
 
+        hint = game.add.sprite(game.world.centerX, game.world.centerY + 50, 'hint', 5);
         door1 = game.add.sprite(game.world.centerX - 250, game.world.centerY + 50, 'door1', 5);
         door2 = game.add.sprite(game.world.centerX, game.world.centerY + 50, 'door2', 5);
         door3 = game.add.sprite(game.world.centerX + 250, game.world.centerY + 50, 'door3', 5);
         arrow = game.add.sprite(game.world.centerX, game.world.centerY - 100, 'arrow');
-        hint = game.add.sprite(-500, game.world.centerY + 50, 'hint', 5);
 
         door1.anchor.setTo(0.5, 0.5);
         door2.anchor.setTo(0.5, 0.5);
@@ -81,8 +81,8 @@ window.onload = function() {
         anim1 = door1.animations.add('open1');
         anim2 = door2.animations.add('open2');
         anim3 = door3.animations.add('open3');
-        animHint = hint.animation.add('shine');
-        animHint.play(7, true);
+        animHint = hint.animations.add('shine');
+        animHint.play(10, true);
 
         left = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
         right = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
@@ -164,7 +164,7 @@ window.onload = function() {
         }
 
         if (cntLevel < 8)
-            hint();
+            doorHint();
 
         if (doorX == 1 || doorY == 1)
             d1 = true;
@@ -186,7 +186,7 @@ window.onload = function() {
         }
     }
 
-    function hint() {
+    function doorHint() {
 
         var x = Math.floor(Math.random() * 2) + 1;
         var y = Math.floor(Math.random() * 4) + 1;
