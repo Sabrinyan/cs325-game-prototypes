@@ -13,77 +13,61 @@ window.onload = function() {
     
     "use strict";
     
-    var game = new Phaser.Game( 900, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update } );
+    var game = new Phaser.Game(900, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+
+    var bun1, bun2;
+    var cat1, cat2;
+    var chin1, chin2;
+    var dog1, dog2;
+    var frog1, frog2;
+    var ham1, ham2;
+    var mous1, mous2;
+    var pig1, pig2;
+    var snak1, snak2;
+    var spid1, spid2;
+    var back;
     
+    var text;
+
     function preload() {
         // Load an image and call it 'logo'.
-        game.load.image('arrow', 'assets/arrow.png');
-        game.load.spritesheet('door1', 'assets/door1.png', 200, 250, 5);
-        game.load.spritesheet('door2', 'assets/door2.png', 200, 250, 5);
-        game.load.spritesheet('door3', 'assets/door3.png', 200, 250, 5);
-        game.load.spritesheet('hint', 'assets/shine.png', 200, 250, 5);
-        game.load.audio('heartbeat', 'assets/heart.ogg');
-        game.load.audio('gameover', 'assets/gameover.ogg');
-        game.load.audio('win', 'assets/win.ogg');
+        game.load.image('bunny1', 'assets/bunny1.png');
+        game.load.image('bunny1', 'assets/bunny2.png');
+        game.load.image('cat1', 'assets/cat1.png');
+        game.load.image('cat2', 'assets/cat2.png');
+        game.load.image('chinchilla1', 'assets/chinchilla1.png');
+        game.load.image('chinchilla2', 'assets/chinchilla2.png');
+        game.load.image('dog1', 'assets/dog1.png');
+        game.load.image('dog2', 'assets/dog2.png');
+        game.load.image('frog1', 'assets/frog1.png');
+        game.load.image('frog2', 'assets/frog2.png');
+        game.load.image('hamster1', 'assets/hamster1.png');
+        game.load.image('hamster2', 'assets/hamster2.png');
+        game.load.image('mouse1', 'assets/mouse1.png');
+        game.load.image('mouse2', 'assets/mouse2.png');
+        game.load.image('pig1', 'assets/pig1.png');
+        game.load.image('pig2', 'assets/pig2.png');
+        game.load.image('snake1', 'assets/snake1.png');
+        game.load.image('snake2', 'assets/snake2.png');
+        game.load.image('spider1', 'assets/spider1.png');
+        game.load.image('spider2', 'assets/spider2.png');
+        game.load.image('back', 'assets/back.png');
     }
     
-
-
     function create() {
 
-        hint = game.add.sprite(game.world.centerX, game.world.centerY + 50, 'hint', 5);
-        door1 = game.add.sprite(game.world.centerX - 250, game.world.centerY + 50, 'door1', 5);
-        door2 = game.add.sprite(game.world.centerX, game.world.centerY + 50, 'door2', 5);
-        door3 = game.add.sprite(game.world.centerX + 250, game.world.centerY + 50, 'door3', 5);
-        arrow = game.add.sprite(game.world.centerX, game.world.centerY - 100, 'arrow');
+        back = game.add.sprite(game.world.centerX, game.world.centerY + 50, 'hint', 5);
 
-        door1.anchor.setTo(0.5, 0.5);
-        door2.anchor.setTo(0.5, 0.5);
-        door3.anchor.setTo(0.5, 0.5);
-        arrow.anchor.setTo(0.5, 0.5);
-        hint.anchor.setTo(0.5, 0.5);
-
-        anim1 = door1.animations.add('open1');
-        anim2 = door2.animations.add('open2');
-        anim3 = door3.animations.add('open3');
-        animHint = hint.animations.add('shine');
-        animHint.play(10, true);
-
-        left = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
-        right = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
-        enter = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        back.anchor.setTo(0.5, 0.5);
 
         text = game.add.text(game.world.centerX, 15, "Click on a door and hope that luck is on your side!\nIf it's not you'll probably die!", { font: "25px Arial", fill: "#9999ff", align: "center" });
-        textLevel = game.add.text(game.world.centerX, 115, "Level: " + cntLevel, { font: "25px Arial", fill: "#9999ff", align: "center" });
-        textTime = game.add.text(game.world.centerX, 85, "Time: " + cntSec, { font: "25px Arial", fill: "#9999ff", align: "center" });
-        text.anchor.setTo(0.5, 0.0);
-        textLevel.anchor.setTo(0.5, 0.0);
-        textTime.anchor.setTo(0.5, 0.0);
-
-        game.time.events.loop(Phaser.Timer.SECOND, time, this);
+        text.anchor.setTo(0.5, 0.5);
     }
     
     function update() {
+    }
 
-        left.onDown.add(goleft, this);
-        right.onDown.add(goright, this);
-        enter.onDown.add(pickDoor, this);
+    function ranCards() {
 
-        //this must be fixed. the ondown is called too many times!
-
-        if (anim1.isFinished)
-            door1.frame = 0;
-        if (anim2.isFinished)
-            door2.frame = 0;
-        if (anim3.isFinished)
-            door3.frame = 0;
-
-        if (cntSec == 0) {
-            go.play();
-            if (go.isPlaying == false)
-                death();
-        }
-        if (cntLevel == 10)
-            win();
     }
 };
