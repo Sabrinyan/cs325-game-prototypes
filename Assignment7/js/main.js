@@ -13,7 +13,8 @@ window.onload = function() {
     
     "use strict";
     
-    var game = new Phaser.Game(705, 738, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+    //705 * 738
+    var game = new Phaser.Game(705, 775, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
     var bun1, bun2;
     var cat1, cat2;
@@ -25,11 +26,13 @@ window.onload = function() {
     var pig1, pig2;
     var snak1, snak2;
     var spid1, spid2;
-    var back;
     
     var pets;
+    var bGroup;
     var xLoc = [10, 149, 288, 427, 566];
-    var yLoc = [10, 192, 374, 556];
+    var yLoc = [50, 232, 414, 596];
+
+    var cntClick = 0;
 
     var text;
 
@@ -63,12 +66,20 @@ window.onload = function() {
         petNames();
         ranCards();
         assignPets();
-        //text = game.add.text(game.world.centerX, 15, "Click on a door and hope that luck is on your side!\nIf it's not you'll probably die!", { font: "25px Arial", fill: "#9999ff", align: "center" });
-        //text.anchor.setTo(0.5, 0.5);
+
+        bGroup = game.add.group();
+        assignBack();
+        text = game.add.text(game.world.centerX, 25, "Hey brutha", { font: "25px Arial", fill: "#9999ff", align: "center" });
+        text.anchor.setTo(0.5, 0.5);
     }
     
     function update() {
 
+        if (cntClick < 2) {
+            bGroup.forEach(function (back) {
+                back.events.onInputDown.add(check, { bKill: back });
+            });
+        }
     }
 
     function petNames() {
@@ -126,5 +137,27 @@ window.onload = function() {
                 cnt++;
             }
         }
+    }
+
+    function assignBack() {
+
+        var i;
+        var j;
+
+        for (i = 0; i < 5; i++) {
+            for (j = 0; j < 4; j++) {
+                bGroup.create(xLoc[i], yLoc[j], 'back');
+            }
+        }
+
+        bGroup.forEach(function (back) {
+            back.inputEnabled = true;
+        });
+    }
+
+    function check() {
+
+        this.bKill.kill();
+        cntClick++;
     }
 };
