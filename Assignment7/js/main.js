@@ -56,7 +56,7 @@ window.onload = function() {
     
     function create() {
 
-        back = game.add.sprite(game.world.centerX, game.world.centerY + 50, 'hint', 5);
+        back = game.add.sprite(game.world.centerX, game.world.centerY + 50, 'back', 5);
 
         back.anchor.setTo(0.5, 0.5);
 
