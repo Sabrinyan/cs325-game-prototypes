@@ -34,11 +34,13 @@ window.onload = function() {
 
     var f = false; //ensures that it is truly clicked on for a moment!
 
-    var c1X, c1Y;
-    var c2X, c2Y;
+    var c1, c1X, c1Y;
+    var c2, c2X, c2Y;
+    var match;
     var cntClick;
 
-    var text;
+    var turn, p1, p2;
+    var textTurn, textP1, textP2;
 
     function preload() {
         // Load an image and call it 'logo'.
@@ -68,15 +70,23 @@ window.onload = function() {
     function create() {
 
         cntClick = 0;
-
+        match = false;
+        turn = 1;
+        p1 = 0; p2 = 0;
+        
         petNames();
         ranCards();
         assignPets();
 
         bGroup = game.add.group();
         assignBack();
-        text = game.add.text(game.world.centerX, 25, "Hey brutha", { font: "25px Arial", fill: "#9999ff", align: "center" });
-        text.anchor.setTo(0.5, 0.5);
+
+        textTurn = game.add.text(game.world.centerX, 25, "Player " + turn + "'s turn!", { font: "25px Arial", fill: "#9999ff", align: "center" });
+        textTurn.anchor.setTo(0.5, 0.5);
+        textP1 = game.add.text(75, 25, "P1 Score: " + p1, { font: "25px Arial", fill: "#9999ff", align: "center" });
+        textP1.anchor.setTo(0.5, 0.5);
+        textP2 = game.add.text(630, 25, "P2 Score: " + p2, { font: "25px Arial", fill: "#9999ff", align: "center" });
+        textP2.anchor.setTo(0.5, 0.5);
     }
     
     function update() {
@@ -91,10 +101,15 @@ window.onload = function() {
 
         if (cntClick == 2) {
             cntClick = 0;
+            petMatch();
             bGroup.forEach(function (back) {
                 back.inputEnabled = false;
             });
             game.time.events.add(Phaser.Timer.SECOND * 3, reset, this);
+        }
+
+        if (p1 + p2 == 10) {
+            win();
         }
     }
 
@@ -186,17 +201,81 @@ window.onload = function() {
             this.bKill.kill();
             cntClick++;
             f = true;
-        }
-        
-        text.setText(cntClick);
+        }        
     }
 
     function reset() {
-        bGroup.create(c1X, c1Y, 'back');
-        bGroup.create(c2X, c2Y, 'back');
-        text.setText(cntClick);
+
+        if (match && turn == 1) {
+            p1++;
+            turn = 2;
+            c1.destroy();
+            c2.destroy();
+            textP1.setText("P1 Score: " + p1);
+        }
+        else if (match && turn == 2) {
+            p2++;
+            turn = 1;
+            c1.destroy();
+            c2.destroy();
+            textP2.setText("P2 Score: " + p2);
+        }
+        else {
+
+            if (turn == 1)
+                turn = 2;
+            else
+                turn = 1;
+
+            bGroup.create(c1X, c1Y, 'back');
+            bGroup.create(c2X, c2Y, 'back');
+        }
+
+        textTurn.setText("Player " + turn + "'s turn!");
         bGroup.forEach(function (back) {
             back.inputEnabled = true;
         });
+    }
+
+    function petMatch() {
+
+        for (var i = 0; i < pets.length; i++) {
+
+            if (pets[i].x == c1X && pets[i].y == c1Y)
+                c1 = pets[i];
+            if (pets[i].x == c2X && pets[i].y == c2Y)
+                c2 = pets[i];
+        }
+
+        if ((c1 == bun1 && c2 == bun2) || (c1 == bun2 && c2 == bun1))
+            match = true;
+        else if (c1 == cat1 && c2 == cat2 || (c1 == cat2 && c2 == cat1))
+            match = true;
+        else if (c1 == chin1 && c2 == chin2 || (c1 == chin2 && c2 == chin1))
+            match = true;
+        else if (c1 == dog1 && c2 == dog2 || (c1 == dog2 && c2 == dog1))
+            match = true;
+        else if (c1 == frog1 && c2 == frog2 || (c1 == frog2 && c2 == frog1))
+            match = true;
+        else if (c1 == ham1 && c2 == ham2 || (c1 == ham2 && c2 == ham1))
+            match = true;
+        else if (c1 == mous1 && c2 == mous2 || (c1 == mous2 && c2 == mous1))
+            match = true;
+        else if (c1 == pig1 && c2 == pig2 || (c1 == pig2 && c2 == pig1))
+            match = true;
+        else if (c1 == snak1 && c2 == snak2 || (c1 == snak2 && c2 == snak1))
+            match = true;
+        else if (c1 == spid1 && c2 == spid2 || (c1 == spid2 && c2 == spid1))
+            match = true;
+        else
+            match = false;
+    }
+
+    function win() {
+
+        if (p1 > p2)
+            textTurn.setText("Player 1 wins!");
+        else
+            textTurn.setText("Player 2 wins!");
     }
 };
