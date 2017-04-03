@@ -32,7 +32,11 @@ window.onload = function() {
     var xLoc = [10, 149, 288, 427, 566];
     var yLoc = [50, 232, 414, 596];
 
-    var cntClick = 0;
+    var f = false; //ensures that it is truly clicked on for a moment!
+
+    var c1X, c1Y;
+    var c2X, c2Y;
+    var cntClick;
 
     var text;
 
@@ -63,6 +67,8 @@ window.onload = function() {
     
     function create() {
 
+        cntClick = 0;
+
         petNames();
         ranCards();
         assignPets();
@@ -74,11 +80,21 @@ window.onload = function() {
     }
     
     function update() {
+        
 
-        if (cntClick < 2) {
-            bGroup.forEach(function (back) {
+        bGroup.forEach(function (back) {
+            if (cntClick < 2) {
                 back.events.onInputDown.add(check, { bKill: back });
+                f = false;
+            }
+        });
+
+        if (cntClick == 2) {
+            cntClick = 0;
+            bGroup.forEach(function (back) {
+                back.inputEnabled = false;
             });
+            game.time.events.add(Phaser.Timer.SECOND * 3, reset, this);
         }
     }
 
@@ -157,7 +173,30 @@ window.onload = function() {
 
     function check() {
 
-        this.bKill.kill();
-        cntClick++;
+        if (!f && cntClick == 0) {
+            c1X = this.bKill.x;
+            c1Y = this.bKill.y;
+            this.bKill.kill();
+            cntClick++;
+            f = true;
+        }
+        if (!f && cntClick == 1) {
+            c2X = this.bKill.x;
+            c2Y = this.bKill.y;
+            this.bKill.kill();
+            cntClick++;
+            f = true;
+        }
+        
+        text.setText(cntClick);
+    }
+
+    function reset() {
+        bGroup.create(c1X, c1Y, 'back');
+        bGroup.create(c2X, c2Y, 'back');
+        text.setText(cntClick);
+        bGroup.forEach(function (back) {
+            back.inputEnabled = true;
+        });
     }
 };
