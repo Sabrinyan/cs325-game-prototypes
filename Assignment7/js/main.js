@@ -29,6 +29,7 @@ window.onload = function() {
     
     var pets;
     var bGroup;
+    var bDestroy;
     var xLoc = [10, 149, 288, 427, 566];
     var yLoc = [50, 232, 414, 596];
 
@@ -191,14 +192,16 @@ window.onload = function() {
         if (!f && cntClick == 0) {
             c1X = this.bKill.x;
             c1Y = this.bKill.y;
-            this.bKill.kill();
+            //bKill.destroy();
+            bGroup.remove(this.bKill, true);
             cntClick++;
             f = true;
         }
         if (!f && cntClick == 1) {
             c2X = this.bKill.x;
             c2Y = this.bKill.y;
-            this.bKill.kill();
+            //bKill.destroy();
+            bGroup.remove(this.bKill, true);
             cntClick++;
             f = true;
         }        
@@ -235,6 +238,8 @@ window.onload = function() {
         bGroup.forEach(function (back) {
             back.inputEnabled = true;
         });
+
+        switcheroo();
     }
 
     function petMatch() {
@@ -271,11 +276,43 @@ window.onload = function() {
             match = false;
     }
 
+    function switcheroo() {
+        var ran1 = Math.floor((Math.random() * 19));
+        var ran2 = Math.floor((Math.random() * 19));
+
+        var tempx, tempy;
+        var check = false;
+        var check1 = false;
+        var check2 = false;
+
+        bGroup.forEach(function (back) {
+
+            if (back.x == pets[ran1].x && back.y == pets[ran1].y) {
+                back.x = pets[ran2].x;
+                back.y = pets[ran2].y;
+            }
+            else if (back.x == pets[ran2].x && back.y == pets[ran2].y) {
+                back.x = pets[ran1].x;
+                back.y = pets[ran1].y;
+            }
+        });
+
+
+        tempx = pets[ran1].x;
+        tempy = pets[ran1].y;
+        pets[ran1].x = pets[ran2].x;
+        pets[ran1].y = pets[ran2].y;
+        pets[ran2].x = tempx;
+        pets[ran2].y = tempy;
+    }
+
     function win() {
 
         if (p1 > p2)
             textTurn.setText("Player 1 wins!");
-        else
+        else if (p2 > p1)
             textTurn.setText("Player 2 wins!");
+        else
+            textTurn.setText("Both player wins!");
     }
 };
