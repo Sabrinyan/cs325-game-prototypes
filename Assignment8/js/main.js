@@ -251,6 +251,10 @@ window.onload = function() {
             bGroup.remove(this.bKill, true);
             cntClick++;
             f = true;
+
+            petCheck();
+            petPlaySound(c1);
+
         }
         if (!f && cntClick == 1) {
             c2X = this.bKill.x;
@@ -259,9 +263,12 @@ window.onload = function() {
             cntClick++;
             f = true;
             switcher = true;
+
+            petCheck();
+            petPlaySound(c2);
+
         }
 
-        petCheck();
         petPlaySound();
     }
 
@@ -338,27 +345,27 @@ window.onload = function() {
     }
 
     //play animal noises!
-    function petPlaySound() {
+    function petPlaySound(c) {
 
-        if (c1 == bun1 || c2 == bun2 || c1 == bun2 || c2 == bun1)
+        if (c == bun1 || c == bun2)
             bsound.play();
-        else if (c1 == cat1 || c2 == cat2 || c1 == cat2 || c2 == cat1)
+        else if (c == cat1 || c == cat2)
             csound.play();
-        else if (c1 == chin1 || c2 == chin2 || c1 == chin2 || c2 == chin1)
+        else if (c == chin1 || c == chin2)
             chsound.play();
-        else if (c1 == dog1 || c2 == dog2 || c1 == dog2 || c2 == dog1)
+        else if (c == dog1 || c == dog2)
             dsound.play();
-        else if (c1 == frog1 || c2 == frog2 || c1 == frog2 || c2 == frog1)
+        else if (c == frog1 || c == frog2)
             fsound.play();
-        else if (c1 == ham1 || c2 == ham2 || c1 == ham2 || c2 == ham1)
+        else if (c == ham1 || c == ham2)
             hsound.play();
-        else if (c1 == mous1 || c2 == mous2 || c1 == mous2 || c2 == mous1)
+        else if (c == mous1 || c == mous2)
             msound.play();
-        else if (c1 == pig1 || c2 == pig2 || c1 == pig2 || c2 == pig1)
+        else if (c == pig1 || c == pig2)
             psound.play();
-        else if (c1 == snak1 || c2 == snak2 || c1 == snak2 || c2 == snak1)
+        else if (c == snak1 || c == snak2)
             ssssound.play();
-        else if (c1 == spid1 || c2 == spid2 || c1 == spid2 || c2 == spid1)
+        else if (c == spid1 || c == spid2)
             ssound.play();
     }
 
