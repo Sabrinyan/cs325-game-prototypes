@@ -372,6 +372,8 @@ window.onload = function() {
     //check if cards were successfully matched
     function petMatch() {
 
+        petCheck();
+
         if ((c1 == bun1 && c2 == bun2) || (c1 == bun2 && c2 == bun1))
             match = true;
         else if (c1 == cat1 && c2 == cat2 || (c1 == cat2 && c2 == cat1))
