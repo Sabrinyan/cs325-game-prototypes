@@ -17,20 +17,25 @@ window.onload = function() {
     var game = new Phaser.Game(1500, 1000, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
     var maze;
-    var heart;
-    var star;
-    var butt;
+    var heart; //p1
+    var star; //p2
+    var dice;
 
     var step1; //size of movement for going up and down
     var step2; //size of movement for going left and right
 
+    //user input direction
     var up, down, left, right;
 
-    var ol;
+    //text
+    var inst;
     var text;
+    var movesleft;
 
+    //heart and star position in relation to the array
     var hx, hy;
     var sx, sy;
+
     var mArray = [
         [2, 24, 34, 34, 234, 34, 34, 34, 234, 34, 34, 23, 24, 34, 34, 34, 34, 34, 34, 34, 23],
         [12, 12, 24, 23, 14, 34, 23, 2, 14, 23, 2, 12, 12, 4, 34, 34, 34, 34, 234, 23, 12],
@@ -52,9 +57,11 @@ window.onload = function() {
         [24, 23, 24, 23, 12, 12, 12, 24, 13, 12, 12, 12, 12, 14, 134, 34, 123, 12, 14, 34, 23],
         [12, 14, 13, 14, 13, 1, 12, 14, 34, 123, 14, 134, 134, 34, 34, 3, 12, 14, 34, 34, 123],
         [14, 34, 34, 34, 34, 34, 134, 34, 3, 14, 34, 34, 34, 34, 34, 34, 134, 34, 34, 3, 1],
-    ];
-    var roll, cnt;
+    ]; // maze array to ensure which directions the player can go in a given spot
+    var roll, cnt; //dice value and step counter
     var turn; //1 = p1 ; 2 = p2
+    //var tp1, tp2, tp3, tp4, tp5, tp6;
+    //var ol = false;
 
     function preload() {
         // Load an image and call it 'logo'.
@@ -62,10 +69,9 @@ window.onload = function() {
         game.load.image('maz', 'assets/maz.png');
         game.load.image('heart', 'assets/heart.png');
         game.load.image('star', 'assets/star.png');
+        //game.load.image('tp', 'assets/tp.png');
 
-        game.load.image('butt', 'assets/slurp.png');
-
-        //game.load.physics('maze_phys', 'assets/maze_test.json');
+        game.load.spritesheet('dice', 'assets/dice.png', 100, 100);
     }
     
     function create() {
@@ -82,14 +88,14 @@ window.onload = function() {
         game.stage.backgroundColor = '#ffffff';
 
         maze = game.add.sprite(0, 0, 'maze');
+
         heart = game.add.sprite(25, 25, 'heart');
         star = game.add.sprite(25, 25, 'star');
         heart.anchor.setTo(0.5, 0.5);
         star.anchor.setTo(0.5, 0.5);
 
-        butt = game.add.button(1300, game.world.centerY, 'butt', actionOnClick, this);
-        butt.scale.setTo(0.5, 0.5);
-        butt.anchor.setTo(0.5, 0.5);
+        dice = game.add.button(1300, game.world.centerY, 'dice', actionOnClick, this);
+        dice.anchor.setTo(0.5, 0.5);
 
         up = this.game.input.keyboard.addKey(Phaser.Keyboard.W);
         down = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
@@ -101,12 +107,17 @@ window.onload = function() {
         left.onDown.add(goLeft, this);
         right.onDown.add(goRight, this);
 
+        inst = game.add.text(1300, game.world.centerY - 125, "Use WASD to move up,\ndown, left, and right!", { font: "25px Arial", fill: "#9999ff", align: "center" });
         text = game.add.text(1300, game.world.centerY + 125, "Player " + turn + " it's your turn!" , { font: "25px Arial", fill: "#9999ff", align: "center" });
+        movesleft = game.add.text(1300, game.world.centerY + 155, "You have x move(s) left!", { font: "25px Arial", fill: "#9999ff", align: "center" });
+        inst.anchor.setTo(0.5, 0.5);
         text.anchor.setTo(0.5, 0.5);
+        movesleft.anchor.setTo(0.5, 0.5);
     }
     
     function update() {
 
+        //checks if one of the players is 
         if (hx == 20 && hy == 19) {
             win(1);
         }
@@ -115,6 +126,7 @@ window.onload = function() {
         }
     }
 
+    //moves player up, down, left, right
     function goUp() {
 
         if (cnt != -1 && cnt < roll) {
@@ -136,9 +148,9 @@ window.onload = function() {
                     cnt++;
                 }
             }
+            movesleft.setText("You have " + (roll - cnt) + " move(s) left!");
         }
     }
-
     function goDown() {
 
         if (cnt != -1 && cnt < roll) {
@@ -160,9 +172,9 @@ window.onload = function() {
                     cnt++;
                 }
             }
+            movesleft.setText("You have " + (roll - cnt) + " move(s) left!");
         }
     }
-
     function goLeft() {
 
         if (cnt != -1 && cnt < roll) {
@@ -184,9 +196,9 @@ window.onload = function() {
                     cnt++;
                 }
             }
+            movesleft.setText("You have " + (roll - cnt) + " move(s) left!");
         }
     }
-
     function goRight() {
 
         if (cnt != -1 && cnt < roll) {
@@ -208,9 +220,11 @@ window.onload = function() {
                     cnt++;
                 }
             }
+            movesleft.setText("You have " + (roll - cnt) + " move(s) left!");
         }
     }
 
+    //actions to perform when the die is clicked
     function actionOnClick() {
 
         if (cnt == roll && turn == 1)
@@ -220,12 +234,15 @@ window.onload = function() {
 
         if (cnt == roll || cnt == -1) {
             roll = Math.floor((Math.random() * 6) + 1);
+            dice.frame = roll - 1;
+            movesleft.setText("You have " + roll + " move(s) left!");
             text.setText("Player " + turn + " you rolled a " + roll);
             cnt = 0;
 
         }
     }
 
+    //checks for winner
     function win(winner) {
         
         game.input.enabled = false;
